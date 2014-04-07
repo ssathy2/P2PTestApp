@@ -1,0 +1,5 @@
+*.lock
+*.xcworkspace
+P2PTestApp.xcodeproj/xcuserdata/*
+P2PTestApp.xcodeproj/project.xcworkspace/*
+

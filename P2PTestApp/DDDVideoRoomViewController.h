@@ -1,5 +1,5 @@
 //
-//  DDDViewController.h
+//  DDDVideoRoomViewController.h
 //  P2PTestApp
 //
 //  Created by Sidd Sathyam on 31/03/14.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DDDViewController : UITabBarController
+@interface DDDVideoRoomViewController : UIViewController
 
 @end
