@@ -8,8 +8,17 @@
 
 #import "DDDVideoRoomViewController.h"
 
-@interface DDDVideoRoomViewController ()
+#define DDDBrowsingCellIdentifier @"DDDBrowsingCellIdentifier"
 
+@interface DDDVideoRoomTableViewCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UILabel *cellLabel;
+@end
+
+@implementation DDDVideoRoomTableViewCell
+@end
+
+@interface DDDVideoRoomViewController ()<DDDSessionBrowsingDelegate>
+@property (weak, nonatomic) IBOutlet UITableView *roomTableView;
 @end
 
 @implementation DDDVideoRoomViewController
@@ -27,6 +36,8 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+	self.sessionContainer.browsingDelegate = self;
+	[self.sessionContainer startBrowsingForPeers];
 }
 
 - (void)didReceiveMemoryWarning
@@ -35,15 +46,28 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
+#pragma mark - UITableViewDelegate
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+
+
+#pragma mark - UITableViewDataSource
+- (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+	return self.sessionContainer.foundPeers.count;
 }
-*/
+
+- (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	MCPeerID *peer = self.sessionContainer.foundPeers[indexPath.row];
+	DDDVideoRoomTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:DDDBrowsingCellIdentifier];
+	cell.cellLabel.text = peer.displayName;
+	return cell;
+}
+
+#pragma mark - DDDSessionBrowsingDelegate
+- (void)sessionContainer:(DDDSessionContainer*)session foundPeerListUpdated:(NSArray*)peerList
+{
+	[self.roomTableView reloadData];
+}
 
 @end

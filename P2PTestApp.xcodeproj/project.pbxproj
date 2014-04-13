@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DE0DC63418FB3322006A47D9 /* NSMutableArray+Modification.m in Sources */ = {isa = PBXBuildFile; fileRef = DE0DC63318FB3322006A47D9 /* NSMutableArray+Modification.m */; };
+		DEA9D21E18F227EE00BD5002 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEA9D21D18F227EE00BD5002 /* AVFoundation.framework */; };
 		DEDAD80C18EA5D400020644C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEDAD80B18EA5D400020644C /* Foundation.framework */; };
 		DEDAD80E18EA5D400020644C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEDAD80D18EA5D400020644C /* CoreGraphics.framework */; };
 		DEDAD81018EA5D400020644C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEDAD80F18EA5D400020644C /* UIKit.framework */; };
@@ -39,6 +41,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DE0DC63218FB3322006A47D9 /* NSMutableArray+Modification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+Modification.h"; sourceTree = "<group>"; };
+		DE0DC63318FB3322006A47D9 /* NSMutableArray+Modification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+Modification.m"; sourceTree = "<group>"; };
+		DEA9D21D18F227EE00BD5002 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		DEDAD80818EA5D400020644C /* P2PTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = P2PTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEDAD80B18EA5D400020644C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DEDAD80D18EA5D400020644C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -73,6 +78,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DEA9D21E18F227EE00BD5002 /* AVFoundation.framework in Frameworks */,
 				DEDAD84318EA5DEA0020644C /* CoreVideo.framework in Frameworks */,
 				DEDAD84118EA5D620020644C /* MultipeerConnectivity.framework in Frameworks */,
 				DEDAD80E18EA5D400020644C /* CoreGraphics.framework in Frameworks */,
@@ -94,9 +100,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DE0DC63118FB3308006A47D9 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				DE0DC63218FB3322006A47D9 /* NSMutableArray+Modification.h */,
+				DE0DC63318FB3322006A47D9 /* NSMutableArray+Modification.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
 		DEA9D21C18F2178700BD5002 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				DEDAD82018EA5D410020644C /* DDDViewController.h */,
+				DEDAD82118EA5D410020644C /* DDDViewController.m */,
 				DEDAD84418EA5EB50020644C /* DDDVideoRoomViewController.h */,
 				DEDAD84518EA5EB50020644C /* DDDVideoRoomViewController.m */,
 				DEDAD84718EA5EC30020644C /* DDDVideoBroadcastViewController.h */,
@@ -127,6 +144,7 @@
 		DEDAD80A18EA5D400020644C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DEA9D21D18F227EE00BD5002 /* AVFoundation.framework */,
 				DEDAD84218EA5DEA0020644C /* CoreVideo.framework */,
 				DEDAD84018EA5D620020644C /* MultipeerConnectivity.framework */,
 				DEDAD80B18EA5D400020644C /* Foundation.framework */,
@@ -140,13 +158,12 @@
 		DEDAD81118EA5D400020644C /* P2PTestApp */ = {
 			isa = PBXGroup;
 			children = (
+				DE0DC63118FB3308006A47D9 /* Categories */,
 				DEA9D21C18F2178700BD5002 /* Views */,
 				DEDAD84B18EA5F360020644C /* Models */,
 				DEDAD81A18EA5D400020644C /* DDDAppDelegate.h */,
 				DEDAD81B18EA5D400020644C /* DDDAppDelegate.m */,
 				DEDAD81D18EA5D400020644C /* Main.storyboard */,
-				DEDAD82018EA5D410020644C /* DDDViewController.h */,
-				DEDAD82118EA5D410020644C /* DDDViewController.m */,
 				DEDAD82318EA5D410020644C /* Images.xcassets */,
 				DEDAD81218EA5D400020644C /* Supporting Files */,
 			);
@@ -239,6 +256,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = dotdotdot;
 				TargetAttributes = {
+					DEDAD80718EA5D400020644C = {
+						DevelopmentTeam = S6WS4PD5A7;
+					};
 					DEDAD82818EA5D410020644C = {
 						TestTargetID = DEDAD80718EA5D400020644C;
 					};
@@ -295,6 +315,7 @@
 				DEDAD84918EA5EC30020644C /* DDDVideoBroadcastViewController.m in Sources */,
 				DEDAD85118EA5F5A0020644C /* DDDSessionContainer.m in Sources */,
 				DEDAD81C18EA5D400020644C /* DDDAppDelegate.m in Sources */,
+				DE0DC63418FB3322006A47D9 /* NSMutableArray+Modification.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -419,10 +440,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "P2PTestApp/P2PTestApp-Prefix.pch";
 				INFOPLIST_FILE = "P2PTestApp/P2PTestApp-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -432,10 +456,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "P2PTestApp/P2PTestApp-Prefix.pch";
 				INFOPLIST_FILE = "P2PTestApp/P2PTestApp-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

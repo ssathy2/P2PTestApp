@@ -14,4 +14,8 @@
 	#import <UIKit/UIKit.h>
 	#import <Foundation/Foundation.h>
 	#import <MultipeerConnectivity/MultipeerConnectivity.h>
+	#import <AVFoundation/AVFoundation.h>
 #endif
+
+// Categories
+#import "NSMutableArray+Modification.h"
