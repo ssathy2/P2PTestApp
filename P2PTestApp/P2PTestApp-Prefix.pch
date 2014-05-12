@@ -15,7 +15,8 @@
 	#import <Foundation/Foundation.h>
 	#import <MultipeerConnectivity/MultipeerConnectivity.h>
 	#import <AVFoundation/AVFoundation.h>
+	#import "DDDHelpers.h"
 #endif
 
 // Categories
-#import "NSMutableArray+Modification.h"
+#import "DDDCategories.h"

@@ -7,6 +7,7 @@
 //
 
 #import "DDDVideoRoomViewController.h"
+#import "DDDVideoViewModel.h"
 
 #define DDDBrowsingCellIdentifier @"DDDBrowsingCellIdentifier"
 
@@ -17,33 +18,16 @@
 @implementation DDDVideoRoomTableViewCell
 @end
 
-@interface DDDVideoRoomViewController ()<DDDSessionBrowsingDelegate>
+@interface DDDVideoRoomViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *roomTableView;
+@property (strong, nonatomic) DDDVideoViewModel *viewModel;
 @end
 
 @implementation DDDVideoRoomViewController
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-	self.sessionContainer.browsingDelegate = self;
-	[self.sessionContainer startBrowsingForPeers];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - UITableViewDelegate
@@ -53,19 +37,19 @@
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section
 {
-	return self.sessionContainer.foundPeers.count;
+	return self.viewModel.peerList.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	MCPeerID *peer = self.sessionContainer.foundPeers[indexPath.row];
+	MCPeerID *peer = self.viewModel.peerList[indexPath.row];
 	DDDVideoRoomTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:DDDBrowsingCellIdentifier];
 	cell.cellLabel.text = peer.displayName;
 	return cell;
 }
 
-#pragma mark - DDDSessionBrowsingDelegate
-- (void)sessionContainer:(DDDSessionContainer*)session foundPeerListUpdated:(NSArray*)peerList
+#pragma mark - DDDVideoViewModelListener
+- (void)viewModel:(DDDVideoViewModel *)videoModel didUpdateFoundPeers:(NSArray *)foundArray
 {
 	[self.roomTableView reloadData];
 }

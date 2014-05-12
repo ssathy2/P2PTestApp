@@ -10,6 +10,12 @@
 
 @class DDDSessionContainer;
 
+typedef NS_ENUM(NSInteger, DDDSessionMode)
+{
+	DDDSessionModeBroadcasting,
+	DDDSessionModeBrowsing
+};
+
 @protocol DDDSessionBrowsingDelegate <NSObject>
 - (void)sessionContainer:(DDDSessionContainer*)session foundPeerListUpdated:(NSArray*)peerList;
 @end
@@ -25,14 +31,9 @@
 @property (readonly, nonatomic) NSMutableArray *foundPeers;
 @property (nonatomic, weak) id<DDDSessionBrowsingDelegate> browsingDelegate;
 @property (nonatomic, weak) id<DDDSessionDataReceptionDelegate> dataDalegate;
+@property (nonatomic, assign) DDDSessionMode sessionMode;
 
-- (instancetype)initWithDisplayID:(NSString*)displayID;
-
-- (void)startBrowsingForPeers;
-- (void)stopBrowsingForPeers;
-
-- (void)startAdvertisingToPeers;
-- (void)stopAdvertisingToPeers;
++ (instancetype)sessionContainerWithDisplayName:(NSString *)displayId;
 
 - (void)connectToPeer:(MCPeerID*)peer callback:(void (^)(BOOL connected, NSError *error))callback;
 - (void)disconnectFromPeer:(MCPeerID*)peer;

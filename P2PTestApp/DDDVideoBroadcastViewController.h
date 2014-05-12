@@ -7,8 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-@class DDDSessionContainer;
+#import "DDDViewController.h"
 
-@interface DDDVideoBroadcastViewController : UIViewController
-@property (weak, nonatomic) DDDSessionContainer *sessionContainer;
+@interface DDDVideoBroadcastViewController : DDDViewController
 @end

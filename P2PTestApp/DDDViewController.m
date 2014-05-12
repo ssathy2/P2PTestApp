@@ -1,56 +1,62 @@
 //
-//  DDDViewController.m
-//  P2PTestApp
+//  DDDBaseViewController.m
+//  autolayouttest
 //
-//  Created by Sidd Sathyam on 31/03/14.
+//  Created by Sidd Sathyam on 02/05/14.
 //  Copyright (c) 2014 dotdotdot. All rights reserved.
 //
 
 #import "DDDViewController.h"
-#import "DDDSessionContainer.h"
-#import "DDDVideoRoomViewController.h"
 
-@interface DDDViewController ()<UITabBarControllerDelegate>
-@property (strong, nonatomic) DDDSessionContainer *sessionContainer;
+@interface DDDViewController ()<DDDViewModelListener>
+
 @end
 
 @implementation DDDViewController
++ (instancetype)instance
+{
+	NSString *storyboardName = [self storyboardName];
+	UIStoryboard *sb = [UIStoryboard storyboardWithName:storyboardName bundle:[NSBundle mainBundle]];
+	return [sb instantiateViewControllerWithIdentifier:[self identifier]];
+}
+
++ (NSString *)identifier
+{
+	return NSStringFromClass([self class]);
+}
+
++ (NSString *)storyboardName
+{
+	return @"Main";
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
-	self.delegate = self;
-	NSString *randomString = [self randomStringOfLength:10];
-	self.sessionContainer = [[DDDSessionContainer alloc] initWithDisplayID:randomString];
+    // Do any additional setup after loading the view.
+	
+	[self.viewModel registerListener:self];
 }
 
-- (NSString*)randomStringOfLength:(NSInteger)length
+- (NSDictionary *)segueIdentifierToContainerViewControllerMapping
 {
-	NSMutableString *str = [NSMutableString stringWithCapacity:length];
-	for (int i = 0; i < length; i++)
+	return nil;
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+	[super prepareForSegue:segue sender:sender];
+	NSDictionary *identifierMapping = [self segueIdentifierToContainerViewControllerMapping];
+	
+	if (!identifierMapping)
+		return;
+	
+    NSString *path = [identifierMapping objectForKey:segue.identifier];
+    NSAssert(path, @"This segue identifier doesn't contain a mapping! Make sure segue identifier exists in the storyboard");
+    [self setValue:segue.destinationViewController forKeyPath:path];
+	if ([segue.destinationViewController isKindOfClass:[DDDViewController class]])
 	{
-		// 65-122.. We want an ascii value between 65 and 122, these range of values represent the ascii character set
-		char randChar = (char)('A' + (arc4random_uniform(26)));
-		[str appendFormat:@"%c", randChar];
+		[segue.destinationViewController performSelector:@selector(setViewModel:) withObject:self.viewModel];
 	}
-	return str;
-}
-
-#pragma mark - UITabBarControllerDelegate
-- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController
-{
-	if ([viewController isKindOfClass:[DDDVideoRoomViewController class]])
-	{
-		DDDVideoRoomViewController *vc = (DDDVideoRoomViewController*)viewController;
-		vc.sessionContainer = self.sessionContainer;
-	}
-	return YES;
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 @end

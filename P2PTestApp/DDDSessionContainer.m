@@ -8,13 +8,6 @@
 
 #import "DDDSessionContainer.h"
 
-typedef NS_ENUM(NSInteger, DDDContainerStatus)
-{
-	DDDContainerStatusBroadcasting,
-	DDDContainerStatusBrowsing,
-	DDDContainerStatusIdle
-};
-
 #define DDDSessionContainerAdvertiserServiceType @"ddd-stream"
 
 @interface DDDSessionContainer()<MCSessionDelegate, MCNearbyServiceAdvertiserDelegate, MCNearbyServiceBrowserDelegate>
@@ -22,7 +15,7 @@ typedef NS_ENUM(NSInteger, DDDContainerStatus)
 @property (strong, nonatomic) MCPeerID *appPeerID;
 @property (strong, nonatomic) MCNearbyServiceAdvertiser *serviceAdvertiser;
 @property (strong, nonatomic) MCNearbyServiceBrowser *serviceBrowser;
-@property (strong, nonatomic) NSString *displayID;
+@property (strong, nonatomic) NSString *displayName;
 
 // When we're browsing we update the found peers
 @property (strong, nonatomic) NSMutableArray *foundPeers;
@@ -32,19 +25,22 @@ typedef NS_ENUM(NSInteger, DDDContainerStatus)
 
 // Keep track of all the peers we're currently streaming to in this array
 @property (strong, nonatomic) NSMutableArray *streamingPeers;
-
-@property (nonatomic) DDDContainerStatus status;
 @end
 
 @implementation DDDSessionContainer
+
++ (instancetype)sessionContainerWithDisplayName:(NSString *)displayId
+{
+	return [[DDDSessionContainer alloc] initWithDisplayID:displayId];
+}
 
 - (instancetype)initWithDisplayID:(NSString *)displayID
 {
 	self = [super init];
 	if (self)
 	{
-		self.displayID = displayID;
-		self.appPeerID = [[MCPeerID alloc] initWithDisplayName:self.displayID];
+		self.displayName = displayID;
+		self.appPeerID = [[MCPeerID alloc] initWithDisplayName:self.displayName];
 		self.currentSession = [[MCSession alloc] initWithPeer:self.appPeerID];
 		self.serviceAdvertiser = [[MCNearbyServiceAdvertiser alloc] initWithPeer:self.appPeerID discoveryInfo:nil serviceType:DDDSessionContainerAdvertiserServiceType];
 		self.serviceBrowser = [[MCNearbyServiceBrowser alloc] initWithPeer:self.appPeerID serviceType:DDDSessionContainerAdvertiserServiceType];
@@ -61,62 +57,33 @@ typedef NS_ENUM(NSInteger, DDDContainerStatus)
 }
 
 #pragma mark - Custom Setters
-- (void)setStatus:(DDDContainerStatus)status
+- (void)setSessionMode:(DDDSessionMode)sessionMode
 {
-	_status = status;
-//	switch (self.status) {
-//		case DDDContainerStatusBroadcasting:
-//		{
-//			[self.serviceAdvertiser startAdvertisingPeer];
-//			[self.serviceBrowser stopBrowsingForPeers];
-//			break;
-//		}
-//		case DDDContainerStatusBrowsing:
-//		{
-//			[self.serviceAdvertiser stopAdvertisingPeer];
-//			[self.serviceBrowser startBrowsingForPeers];
-//			break;
-//		}
-//		case DDDContainerStatusIdle:
-//		{
-//			
-//			// @TODO: What to do in this situation
-//			break;
-//		}
-//		default:
-//			break;
-//	}
-	[self.serviceAdvertiser startAdvertisingPeer];
-	[self.serviceBrowser startBrowsingForPeers];
-}
-
-#pragma mark - Advertising Methods
-- (void)startAdvertisingToPeers
-{
-	self.status = DDDContainerStatusBroadcasting;
-}
-
-- (void)stopAdvertisingToPeers
-{
-	self.status = DDDContainerStatusBrowsing;
-}
-
-#pragma mark - Browsing Methods
-- (void)startBrowsingForPeers
-{
-	self.status = DDDContainerStatusBrowsing;
-}
-
-- (void)stopBrowsingForPeers
-{
-	self.status = DDDContainerStatusBroadcasting;
+	_sessionMode = sessionMode;
+	switch (self.sessionMode)
+	{
+		case DDDSessionModeBroadcasting:
+		{
+			[self.serviceAdvertiser startAdvertisingPeer];
+			[self.serviceBrowser stopBrowsingForPeers];
+			break;
+		}
+		case DDDSessionModeBrowsing:
+		{
+			[self.serviceAdvertiser stopAdvertisingPeer];
+			[self.serviceBrowser startBrowsingForPeers];
+			break;
+		}
+		default:
+			break;
+	}
 }
 
 #pragma mark - MCSessionDelegate methods
 // Remote peer changed state
 - (void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state
 {
-	NSLog(@"Peer %@ changed state to %li", peerID, state);
+	NSLog(@"Peer %@ changed state to %i", peerID, state);
 //    MCSessionStateNotConnected,     // not in the session
 //    MCSessionStateConnecting,       // connecting to this peer
 //    MCSessionStateConnected         // connected to the session

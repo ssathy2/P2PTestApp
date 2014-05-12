@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		DE0DC63418FB3322006A47D9 /* NSMutableArray+Modification.m in Sources */ = {isa = PBXBuildFile; fileRef = DE0DC63318FB3322006A47D9 /* NSMutableArray+Modification.m */; };
 		DEA9D21E18F227EE00BD5002 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEA9D21D18F227EE00BD5002 /* AVFoundation.framework */; };
+		DECC65C219203F300076D3AB /* DDDViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DECC65C119203F300076D3AB /* DDDViewModel.m */; };
+		DECC65C619203F8B0076D3AB /* DDDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DECC65C519203F8B0076D3AB /* DDDViewController.m */; };
+		DECC65D31920495F0076D3AB /* DDDVideoViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DECC65D21920495F0076D3AB /* DDDVideoViewModel.m */; };
 		DEDAD80C18EA5D400020644C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEDAD80B18EA5D400020644C /* Foundation.framework */; };
 		DEDAD80E18EA5D400020644C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEDAD80D18EA5D400020644C /* CoreGraphics.framework */; };
 		DEDAD81018EA5D400020644C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEDAD80F18EA5D400020644C /* UIKit.framework */; };
@@ -16,7 +19,7 @@
 		DEDAD81818EA5D400020644C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DEDAD81718EA5D400020644C /* main.m */; };
 		DEDAD81C18EA5D400020644C /* DDDAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DEDAD81B18EA5D400020644C /* DDDAppDelegate.m */; };
 		DEDAD81F18EA5D410020644C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DEDAD81D18EA5D400020644C /* Main.storyboard */; };
-		DEDAD82218EA5D410020644C /* DDDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DEDAD82118EA5D410020644C /* DDDViewController.m */; };
+		DEDAD82218EA5D410020644C /* DDDContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DEDAD82118EA5D410020644C /* DDDContainerViewController.m */; };
 		DEDAD82418EA5D410020644C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DEDAD82318EA5D410020644C /* Images.xcassets */; };
 		DEDAD82B18EA5D410020644C /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEDAD82A18EA5D410020644C /* XCTest.framework */; };
 		DEDAD82C18EA5D410020644C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEDAD80B18EA5D400020644C /* Foundation.framework */; };
@@ -44,6 +47,16 @@
 		DE0DC63218FB3322006A47D9 /* NSMutableArray+Modification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+Modification.h"; sourceTree = "<group>"; };
 		DE0DC63318FB3322006A47D9 /* NSMutableArray+Modification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+Modification.m"; sourceTree = "<group>"; };
 		DEA9D21D18F227EE00BD5002 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		DECC65C019203F300076D3AB /* DDDViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDDViewModel.h; sourceTree = "<group>"; };
+		DECC65C119203F300076D3AB /* DDDViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDDViewModel.m; sourceTree = "<group>"; };
+		DECC65C419203F8B0076D3AB /* DDDViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDDViewController.h; sourceTree = "<group>"; };
+		DECC65C519203F8B0076D3AB /* DDDViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDDViewController.m; sourceTree = "<group>"; };
+		DECC65C9192040D00076D3AB /* DDDMainStoryboardIdentifiers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDDMainStoryboardIdentifiers.h; sourceTree = "<group>"; };
+		DECC65CC192045AE0076D3AB /* DDDViewControllers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDDViewControllers.h; sourceTree = "<group>"; };
+		DECC65CE1920466E0076D3AB /* DDDCategories.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDDCategories.h; sourceTree = "<group>"; };
+		DECC65D0192046B10076D3AB /* DDDHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDDHelpers.h; sourceTree = "<group>"; };
+		DECC65D11920495F0076D3AB /* DDDVideoViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDDVideoViewModel.h; sourceTree = "<group>"; };
+		DECC65D21920495F0076D3AB /* DDDVideoViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDDVideoViewModel.m; sourceTree = "<group>"; };
 		DEDAD80818EA5D400020644C /* P2PTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = P2PTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEDAD80B18EA5D400020644C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DEDAD80D18EA5D400020644C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -55,8 +68,8 @@
 		DEDAD81A18EA5D400020644C /* DDDAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDDAppDelegate.h; sourceTree = "<group>"; };
 		DEDAD81B18EA5D400020644C /* DDDAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDDAppDelegate.m; sourceTree = "<group>"; };
 		DEDAD81E18EA5D400020644C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		DEDAD82018EA5D410020644C /* DDDViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDDViewController.h; sourceTree = "<group>"; };
-		DEDAD82118EA5D410020644C /* DDDViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDDViewController.m; sourceTree = "<group>"; };
+		DEDAD82018EA5D410020644C /* DDDContainerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDDContainerViewController.h; sourceTree = "<group>"; };
+		DEDAD82118EA5D410020644C /* DDDContainerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDDContainerViewController.m; sourceTree = "<group>"; };
 		DEDAD82318EA5D410020644C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		DEDAD82918EA5D410020644C /* P2PTestAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = P2PTestAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEDAD82A18EA5D410020644C /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -103,6 +116,7 @@
 		DE0DC63118FB3308006A47D9 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				DECC65CE1920466E0076D3AB /* DDDCategories.h */,
 				DE0DC63218FB3322006A47D9 /* NSMutableArray+Modification.h */,
 				DE0DC63318FB3322006A47D9 /* NSMutableArray+Modification.m */,
 			);
@@ -112,14 +126,61 @@
 		DEA9D21C18F2178700BD5002 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				DEDAD82018EA5D410020644C /* DDDViewController.h */,
-				DEDAD82118EA5D410020644C /* DDDViewController.m */,
+				DECC65CC192045AE0076D3AB /* DDDViewControllers.h */,
+				DECC65C819203FF00076D3AB /* Video Broadcast */,
+				DECC65C719203FE90076D3AB /* Video Room */,
+				DECC65C319203F7F0076D3AB /* Shared */,
+				DEDAD82018EA5D410020644C /* DDDContainerViewController.h */,
+				DEDAD82118EA5D410020644C /* DDDContainerViewController.m */,
+				DECC65C9192040D00076D3AB /* DDDMainStoryboardIdentifiers.h */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		DECC65BF19203F100076D3AB /* View Models */ = {
+			isa = PBXGroup;
+			children = (
+				DECC65C019203F300076D3AB /* DDDViewModel.h */,
+				DECC65C119203F300076D3AB /* DDDViewModel.m */,
+				DECC65D11920495F0076D3AB /* DDDVideoViewModel.h */,
+				DECC65D21920495F0076D3AB /* DDDVideoViewModel.m */,
+			);
+			name = "View Models";
+			sourceTree = "<group>";
+		};
+		DECC65C319203F7F0076D3AB /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				DECC65C419203F8B0076D3AB /* DDDViewController.h */,
+				DECC65C519203F8B0076D3AB /* DDDViewController.m */,
+			);
+			name = Shared;
+			sourceTree = "<group>";
+		};
+		DECC65C719203FE90076D3AB /* Video Room */ = {
+			isa = PBXGroup;
+			children = (
 				DEDAD84418EA5EB50020644C /* DDDVideoRoomViewController.h */,
 				DEDAD84518EA5EB50020644C /* DDDVideoRoomViewController.m */,
+			);
+			name = "Video Room";
+			sourceTree = "<group>";
+		};
+		DECC65C819203FF00076D3AB /* Video Broadcast */ = {
+			isa = PBXGroup;
+			children = (
 				DEDAD84718EA5EC30020644C /* DDDVideoBroadcastViewController.h */,
 				DEDAD84818EA5EC30020644C /* DDDVideoBroadcastViewController.m */,
 			);
-			name = Views;
+			name = "Video Broadcast";
+			sourceTree = "<group>";
+		};
+		DECC65CF1920469C0076D3AB /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				DECC65D0192046B10076D3AB /* DDDHelpers.h */,
+			);
+			name = Helpers;
 			sourceTree = "<group>";
 		};
 		DEDAD7FF18EA5D400020644C = {
@@ -158,6 +219,8 @@
 		DEDAD81118EA5D400020644C /* P2PTestApp */ = {
 			isa = PBXGroup;
 			children = (
+				DECC65CF1920469C0076D3AB /* Helpers */,
+				DECC65BF19203F100076D3AB /* View Models */,
 				DE0DC63118FB3308006A47D9 /* Categories */,
 				DEA9D21C18F2178700BD5002 /* Views */,
 				DEDAD84B18EA5F360020644C /* Models */,
@@ -309,8 +372,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DECC65D31920495F0076D3AB /* DDDVideoViewModel.m in Sources */,
 				DEDAD81818EA5D400020644C /* main.m in Sources */,
-				DEDAD82218EA5D410020644C /* DDDViewController.m in Sources */,
+				DECC65C619203F8B0076D3AB /* DDDViewController.m in Sources */,
+				DECC65C219203F300076D3AB /* DDDViewModel.m in Sources */,
+				DEDAD82218EA5D410020644C /* DDDContainerViewController.m in Sources */,
 				DEDAD84618EA5EB50020644C /* DDDVideoRoomViewController.m in Sources */,
 				DEDAD84918EA5EC30020644C /* DDDVideoBroadcastViewController.m in Sources */,
 				DEDAD85118EA5F5A0020644C /* DDDSessionContainer.m in Sources */,
