@@ -45,7 +45,7 @@
 
 - (void)callDelegateListenersWithSelector:(SEL)selector withObject:(id)object1
 {
-	dispatch_async(dispatch_get_main_queue(), ^{
+	[[NSOperationQueue mainQueue] addOperationWithBlock:^{
 		for (id<DDDViewModelListener> listener in self.listeners)
 		{
 			if ([listener respondsToSelector:selector])
@@ -53,6 +53,6 @@
 				[listener performSelector:selector withObject:self withObject:object1];
 			}
 		}
-	});
+	}];
 }
 @end

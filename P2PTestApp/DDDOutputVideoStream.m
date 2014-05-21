@@ -22,6 +22,7 @@
 {
 	DDDOutputVideoStream *stream = [DDDOutputVideoStream new];
 	stream.outputDevice = output;
+	
 	return stream;
 }
 

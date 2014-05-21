@@ -11,7 +11,9 @@
 
 @interface DDDVideoViewModel()<DDDSessionBrowsingDelegate, DDDSessionDataReceptionDelegate>
 @property (strong, nonatomic) DDDSessionContainer *sessionContainer;
-@property (weak, nonatomic) NSArray *peerList;
+@property (strong, nonatomic) NSArray *peerList;
+@property (strong, nonatomic) DDDAVCaptureManager *captureManager;
+@property (strong, nonatomic) DDDVideoOutputStreamingController *streamingController;
 @end
 
 @implementation DDDVideoViewModel
@@ -23,6 +25,9 @@
 		self.sessionContainer = [DDDSessionContainer sessionContainerWithDisplayName:@"Test id"];
 		self.sessionContainer.browsingDelegate = self;
 		self.sessionContainer.dataDalegate = self;
+		self.captureManager = [DDDAVCaptureManager new];
+		self.streamingController = [DDDVideoOutputStreamingController controllerWithCaptureSession:self.captureManager.captureSession];
+		[self callDelegateListenersWithSelector:@selector(viewModel:didInitializeCaptureManager:) withObject:self.captureManager];
 	}
 	return self;
 }
@@ -84,5 +89,21 @@
 - (void)setMode:(DDDSessionMode)mode
 {
 	[self.sessionContainer setSessionMode:mode];
+}
+
+// AVCapture
+- (void)startVideo
+{
+	[self.captureManager startVideo];
+}
+
+- (void)stopVideo
+{
+	[self.captureManager stopVideo];
+}
+
+- (void)displayCamera:(AVCaptureDevicePosition)position
+{
+	[self.captureManager updateCurrentCameraShown:position];
 }
 @end

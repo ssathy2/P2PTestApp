@@ -8,9 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		DE0DC63418FB3322006A47D9 /* NSMutableArray+Modification.m in Sources */ = {isa = PBXBuildFile; fileRef = DE0DC63318FB3322006A47D9 /* NSMutableArray+Modification.m */; };
-		DE788156192C54CF005A50A1 /* DDDOutputStreamingController.m in Sources */ = {isa = PBXBuildFile; fileRef = DE788155192C54CF005A50A1 /* DDDOutputStreamingController.m */; };
+		DE788156192C54CF005A50A1 /* DDDVideoOutputStreamingController.m in Sources */ = {isa = PBXBuildFile; fileRef = DE788155192C54CF005A50A1 /* DDDVideoOutputStreamingController.m */; };
 		DE788159192C58ED005A50A1 /* DDDOutputVideoStream.m in Sources */ = {isa = PBXBuildFile; fileRef = DE788158192C58ED005A50A1 /* DDDOutputVideoStream.m */; };
 		DE78815C192C5E7D005A50A1 /* NSData+BufferConversion.m in Sources */ = {isa = PBXBuildFile; fileRef = DE78815B192C5E7D005A50A1 /* NSData+BufferConversion.m */; };
+		DE78815F192CA12E005A50A1 /* DDDAVCaptureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DE78815E192CA12E005A50A1 /* DDDAVCaptureManager.m */; };
 		DEA9D21E18F227EE00BD5002 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEA9D21D18F227EE00BD5002 /* AVFoundation.framework */; };
 		DECC65C219203F300076D3AB /* DDDViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DECC65C119203F300076D3AB /* DDDViewModel.m */; };
 		DECC65C619203F8B0076D3AB /* DDDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DECC65C519203F8B0076D3AB /* DDDViewController.m */; };
@@ -50,12 +51,14 @@
 /* Begin PBXFileReference section */
 		DE0DC63218FB3322006A47D9 /* NSMutableArray+Modification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+Modification.h"; sourceTree = "<group>"; };
 		DE0DC63318FB3322006A47D9 /* NSMutableArray+Modification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+Modification.m"; sourceTree = "<group>"; };
-		DE788154192C54CF005A50A1 /* DDDOutputStreamingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDDOutputStreamingController.h; sourceTree = "<group>"; };
-		DE788155192C54CF005A50A1 /* DDDOutputStreamingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDDOutputStreamingController.m; sourceTree = "<group>"; };
+		DE788154192C54CF005A50A1 /* DDDVideoOutputStreamingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDDVideoOutputStreamingController.h; sourceTree = "<group>"; };
+		DE788155192C54CF005A50A1 /* DDDVideoOutputStreamingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDDVideoOutputStreamingController.m; sourceTree = "<group>"; };
 		DE788157192C58ED005A50A1 /* DDDOutputVideoStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDDOutputVideoStream.h; sourceTree = "<group>"; };
 		DE788158192C58ED005A50A1 /* DDDOutputVideoStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDDOutputVideoStream.m; sourceTree = "<group>"; };
 		DE78815A192C5E7D005A50A1 /* NSData+BufferConversion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+BufferConversion.h"; sourceTree = "<group>"; };
 		DE78815B192C5E7D005A50A1 /* NSData+BufferConversion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+BufferConversion.m"; sourceTree = "<group>"; };
+		DE78815D192CA12E005A50A1 /* DDDAVCaptureManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDDAVCaptureManager.h; sourceTree = "<group>"; };
+		DE78815E192CA12E005A50A1 /* DDDAVCaptureManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDDAVCaptureManager.m; sourceTree = "<group>"; };
 		DEA9D21D18F227EE00BD5002 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		DECC65C019203F300076D3AB /* DDDViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDDViewModel.h; sourceTree = "<group>"; };
 		DECC65C119203F300076D3AB /* DDDViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDDViewModel.m; sourceTree = "<group>"; };
@@ -193,9 +196,11 @@
 		DECC65CF1920469C0076D3AB /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				DE78815D192CA12E005A50A1 /* DDDAVCaptureManager.h */,
+				DE78815E192CA12E005A50A1 /* DDDAVCaptureManager.m */,
 				DECC65D0192046B10076D3AB /* DDDHelpers.h */,
-				DE788154192C54CF005A50A1 /* DDDOutputStreamingController.h */,
-				DE788155192C54CF005A50A1 /* DDDOutputStreamingController.m */,
+				DE788154192C54CF005A50A1 /* DDDVideoOutputStreamingController.h */,
+				DE788155192C54CF005A50A1 /* DDDVideoOutputStreamingController.m */,
 				DE788157192C58ED005A50A1 /* DDDOutputVideoStream.h */,
 				DE788158192C58ED005A50A1 /* DDDOutputVideoStream.m */,
 			);
@@ -400,11 +405,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DE788156192C54CF005A50A1 /* DDDOutputStreamingController.m in Sources */,
+				DE788156192C54CF005A50A1 /* DDDVideoOutputStreamingController.m in Sources */,
 				DECC65D31920495F0076D3AB /* DDDVideoViewModel.m in Sources */,
 				DEDAD81818EA5D400020644C /* main.m in Sources */,
 				DECC65C619203F8B0076D3AB /* DDDViewController.m in Sources */,
 				DECC65C219203F300076D3AB /* DDDViewModel.m in Sources */,
+				DE78815F192CA12E005A50A1 /* DDDAVCaptureManager.m in Sources */,
 				DEDAD82218EA5D410020644C /* DDDContainerViewController.m in Sources */,
 				DE78815C192C5E7D005A50A1 /* NSData+BufferConversion.m in Sources */,
 				DEDAD84618EA5EB50020644C /* DDDVideoRoomViewController.m in Sources */,
