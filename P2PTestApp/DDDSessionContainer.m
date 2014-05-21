@@ -64,7 +64,7 @@
 	{
 		case DDDSessionModeBroadcasting:
 		{
-			[self.serviceAdvertiser startAdvertisingPeer];
+			[self.serviceAdvertiser performSelectorInBackground:@selector(startAdvertisingPeer) withObject:nil];
 			[self.serviceBrowser stopBrowsingForPeers];
 			break;
 		}

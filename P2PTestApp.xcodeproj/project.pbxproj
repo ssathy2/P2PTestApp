@@ -8,10 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		DE0DC63418FB3322006A47D9 /* NSMutableArray+Modification.m in Sources */ = {isa = PBXBuildFile; fileRef = DE0DC63318FB3322006A47D9 /* NSMutableArray+Modification.m */; };
+		DE788156192C54CF005A50A1 /* DDDOutputStreamingController.m in Sources */ = {isa = PBXBuildFile; fileRef = DE788155192C54CF005A50A1 /* DDDOutputStreamingController.m */; };
+		DE788159192C58ED005A50A1 /* DDDOutputVideoStream.m in Sources */ = {isa = PBXBuildFile; fileRef = DE788158192C58ED005A50A1 /* DDDOutputVideoStream.m */; };
+		DE78815C192C5E7D005A50A1 /* NSData+BufferConversion.m in Sources */ = {isa = PBXBuildFile; fileRef = DE78815B192C5E7D005A50A1 /* NSData+BufferConversion.m */; };
 		DEA9D21E18F227EE00BD5002 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEA9D21D18F227EE00BD5002 /* AVFoundation.framework */; };
 		DECC65C219203F300076D3AB /* DDDViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DECC65C119203F300076D3AB /* DDDViewModel.m */; };
 		DECC65C619203F8B0076D3AB /* DDDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DECC65C519203F8B0076D3AB /* DDDViewController.m */; };
 		DECC65D31920495F0076D3AB /* DDDVideoViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DECC65D21920495F0076D3AB /* DDDVideoViewModel.m */; };
+		DECC65D619205D770076D3AB /* DDDVideoReceptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DECC65D519205D770076D3AB /* DDDVideoReceptionViewController.m */; };
 		DEDAD80C18EA5D400020644C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEDAD80B18EA5D400020644C /* Foundation.framework */; };
 		DEDAD80E18EA5D400020644C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEDAD80D18EA5D400020644C /* CoreGraphics.framework */; };
 		DEDAD81018EA5D400020644C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEDAD80F18EA5D400020644C /* UIKit.framework */; };
@@ -46,6 +50,12 @@
 /* Begin PBXFileReference section */
 		DE0DC63218FB3322006A47D9 /* NSMutableArray+Modification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+Modification.h"; sourceTree = "<group>"; };
 		DE0DC63318FB3322006A47D9 /* NSMutableArray+Modification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+Modification.m"; sourceTree = "<group>"; };
+		DE788154192C54CF005A50A1 /* DDDOutputStreamingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDDOutputStreamingController.h; sourceTree = "<group>"; };
+		DE788155192C54CF005A50A1 /* DDDOutputStreamingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDDOutputStreamingController.m; sourceTree = "<group>"; };
+		DE788157192C58ED005A50A1 /* DDDOutputVideoStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDDOutputVideoStream.h; sourceTree = "<group>"; };
+		DE788158192C58ED005A50A1 /* DDDOutputVideoStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDDOutputVideoStream.m; sourceTree = "<group>"; };
+		DE78815A192C5E7D005A50A1 /* NSData+BufferConversion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+BufferConversion.h"; sourceTree = "<group>"; };
+		DE78815B192C5E7D005A50A1 /* NSData+BufferConversion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+BufferConversion.m"; sourceTree = "<group>"; };
 		DEA9D21D18F227EE00BD5002 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		DECC65C019203F300076D3AB /* DDDViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDDViewModel.h; sourceTree = "<group>"; };
 		DECC65C119203F300076D3AB /* DDDViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDDViewModel.m; sourceTree = "<group>"; };
@@ -57,6 +67,8 @@
 		DECC65D0192046B10076D3AB /* DDDHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDDHelpers.h; sourceTree = "<group>"; };
 		DECC65D11920495F0076D3AB /* DDDVideoViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDDVideoViewModel.h; sourceTree = "<group>"; };
 		DECC65D21920495F0076D3AB /* DDDVideoViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDDVideoViewModel.m; sourceTree = "<group>"; };
+		DECC65D419205D770076D3AB /* DDDVideoReceptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDDVideoReceptionViewController.h; sourceTree = "<group>"; };
+		DECC65D519205D770076D3AB /* DDDVideoReceptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDDVideoReceptionViewController.m; sourceTree = "<group>"; };
 		DEDAD80818EA5D400020644C /* P2PTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = P2PTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEDAD80B18EA5D400020644C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DEDAD80D18EA5D400020644C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -119,6 +131,8 @@
 				DECC65CE1920466E0076D3AB /* DDDCategories.h */,
 				DE0DC63218FB3322006A47D9 /* NSMutableArray+Modification.h */,
 				DE0DC63318FB3322006A47D9 /* NSMutableArray+Modification.m */,
+				DE78815A192C5E7D005A50A1 /* NSData+BufferConversion.h */,
+				DE78815B192C5E7D005A50A1 /* NSData+BufferConversion.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -127,6 +141,7 @@
 			isa = PBXGroup;
 			children = (
 				DECC65CC192045AE0076D3AB /* DDDViewControllers.h */,
+				DECC65D719205E3A0076D3AB /* Video Reception */,
 				DECC65C819203FF00076D3AB /* Video Broadcast */,
 				DECC65C719203FE90076D3AB /* Video Room */,
 				DECC65C319203F7F0076D3AB /* Shared */,
@@ -179,8 +194,21 @@
 			isa = PBXGroup;
 			children = (
 				DECC65D0192046B10076D3AB /* DDDHelpers.h */,
+				DE788154192C54CF005A50A1 /* DDDOutputStreamingController.h */,
+				DE788155192C54CF005A50A1 /* DDDOutputStreamingController.m */,
+				DE788157192C58ED005A50A1 /* DDDOutputVideoStream.h */,
+				DE788158192C58ED005A50A1 /* DDDOutputVideoStream.m */,
 			);
 			name = Helpers;
+			sourceTree = "<group>";
+		};
+		DECC65D719205E3A0076D3AB /* Video Reception */ = {
+			isa = PBXGroup;
+			children = (
+				DECC65D419205D770076D3AB /* DDDVideoReceptionViewController.h */,
+				DECC65D519205D770076D3AB /* DDDVideoReceptionViewController.m */,
+			);
+			name = "Video Reception";
 			sourceTree = "<group>";
 		};
 		DEDAD7FF18EA5D400020644C = {
@@ -372,13 +400,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DE788156192C54CF005A50A1 /* DDDOutputStreamingController.m in Sources */,
 				DECC65D31920495F0076D3AB /* DDDVideoViewModel.m in Sources */,
 				DEDAD81818EA5D400020644C /* main.m in Sources */,
 				DECC65C619203F8B0076D3AB /* DDDViewController.m in Sources */,
 				DECC65C219203F300076D3AB /* DDDViewModel.m in Sources */,
 				DEDAD82218EA5D410020644C /* DDDContainerViewController.m in Sources */,
+				DE78815C192C5E7D005A50A1 /* NSData+BufferConversion.m in Sources */,
 				DEDAD84618EA5EB50020644C /* DDDVideoRoomViewController.m in Sources */,
 				DEDAD84918EA5EC30020644C /* DDDVideoBroadcastViewController.m in Sources */,
+				DECC65D619205D770076D3AB /* DDDVideoReceptionViewController.m in Sources */,
+				DE788159192C58ED005A50A1 /* DDDOutputVideoStream.m in Sources */,
 				DEDAD85118EA5F5A0020644C /* DDDSessionContainer.m in Sources */,
 				DEDAD81C18EA5D400020644C /* DDDAppDelegate.m in Sources */,
 				DE0DC63418FB3322006A47D9 /* NSMutableArray+Modification.m in Sources */,

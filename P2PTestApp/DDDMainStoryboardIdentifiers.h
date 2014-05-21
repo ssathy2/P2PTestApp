@@ -15,3 +15,5 @@
 
 #define DDDVideoBroadcastViewControllerIdentifier @"DDDVideoBroadcastViewController"
 
+#define DDDVideoReceptionPushSegueIdentifier @"DDDVideoReceptionPushSegueIdentifier"
+#define DDDVideoReceptionViewControllerIdenfitier @"DDDVideoReceptionViewController"

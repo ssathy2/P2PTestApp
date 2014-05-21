@@ -9,4 +9,5 @@
 #import "DDDVideoBroadcastViewController.h"
 #import "DDDVideoRoomViewController.h"
 #import "DDDContainerViewController.h"
+#import "DDDVideoReceptionViewController.h"
 

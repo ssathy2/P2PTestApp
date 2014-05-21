@@ -59,14 +59,19 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="67"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6BO-Ml-8FM">
-                                                    <rect key="frame" x="20" y="20" width="280" height="24"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="6BO-Ml-8FM">
+                                                    <rect key="frame" x="20" y="6" width="280" height="24"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="6BO-Ml-8FM" firstAttribute="top" secondItem="FFi-Ma-Uve" secondAttribute="top" constant="6" id="0S8-DY-mvB"/>
+                                                <constraint firstAttribute="trailing" secondItem="6BO-Ml-8FM" secondAttribute="trailing" constant="20" symbolic="YES" id="wIf-4y-2Us"/>
+                                                <constraint firstItem="6BO-Ml-8FM" firstAttribute="leading" secondItem="FFi-Ma-Uve" secondAttribute="leading" constant="20" symbolic="YES" id="wob-xl-txc"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="cellLabel" destination="6BO-Ml-8FM" id="paH-qo-uBp"/>
@@ -84,17 +89,17 @@
                     <tabBarItem key="tabBarItem" title="Room View" id="0Qe-qZ-Fu4"/>
                     <connections>
                         <outlet property="roomTableView" destination="9Gp-9T-dDc" id="QRr-hg-oUg"/>
-                        <segue destination="NnA-MZ-INM" kind="push" identifier="roomStreamViewControllerPushSegueIdentifier" id="1fH-fL-ze1"/>
+                        <segue destination="NnA-MZ-INM" kind="push" identifier="DDDVideoReceptionPushSegueIdentifier" id="1fH-fL-ze1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="773-Z5-m6n" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="248" y="486"/>
         </scene>
-        <!--View Controller-->
+        <!--Video Reception View Controller-->
         <scene sceneID="5XE-GX-B83">
             <objects>
-                <viewController id="NnA-MZ-INM" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DDDVideoReceptionViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="NnA-MZ-INM" customClass="DDDVideoReceptionViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Gqs-f3-kmp"/>
                         <viewControllerLayoutGuide type="bottom" id="Mwn-Dz-ipy"/>
@@ -108,13 +113,13 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5jB-o9-8OT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="695" y="544"/>
+            <point key="canvasLocation" x="707" y="478"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="lUm-5F-1fr">
             <objects>
                 <tabBarController storyboardIdentifier="DDDContainerTabBarController" definesPresentationContext="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Icw-RZ-Lmu" sceneMemberID="viewController">
-                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="02G-XZ-fR4">
                         <rect key="frame" x="129" y="330" width="163" height="49"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -140,10 +145,118 @@
                     <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="GTM-XD-NhB">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iJP-0h-TNJ">
+                                <rect key="frame" x="0.0" y="20" width="320" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Zpb-Zm-iYK">
+                                        <rect key="frame" x="207" y="11" width="93" height="29"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="93" id="AzE-qX-icx"/>
+                                        </constraints>
+                                        <segments>
+                                            <segment title="Back"/>
+                                            <segment title="Front"/>
+                                        </segments>
+                                        <connections>
+                                            <action selector="cameraSelectionSegmentControlValueChanged:" destination="5sK-jR-D3M" eventType="valueChanged" id="M0C-qt-Y0x"/>
+                                        </connections>
+                                    </segmentedControl>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fUg-38-dOI">
+                                        <rect key="frame" x="20" y="14" width="179" height="22"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="16"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="fUg-38-dOI" firstAttribute="top" secondItem="iJP-0h-TNJ" secondAttribute="top" constant="14" id="7F0-NE-G1I"/>
+                                    <constraint firstAttribute="trailing" secondItem="Zpb-Zm-iYK" secondAttribute="trailing" constant="20" symbolic="YES" id="Eet-s3-9Jw"/>
+                                    <constraint firstItem="Zpb-Zm-iYK" firstAttribute="leading" secondItem="fUg-38-dOI" secondAttribute="trailing" constant="8" symbolic="YES" id="Jb2-uh-bg0"/>
+                                    <constraint firstAttribute="bottom" secondItem="fUg-38-dOI" secondAttribute="bottom" constant="14" id="TXU-LB-Jmk"/>
+                                    <constraint firstItem="Zpb-Zm-iYK" firstAttribute="centerY" secondItem="fUg-38-dOI" secondAttribute="centerY" id="tlS-KJ-2ME"/>
+                                    <constraint firstItem="fUg-38-dOI" firstAttribute="leading" secondItem="iJP-0h-TNJ" secondAttribute="leading" constant="20" id="uAv-j0-iIe"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ezN-bM-6Ns">
+                                <rect key="frame" x="0.0" y="78" width="320" height="369"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VI9-pg-vwJ">
+                                <rect key="frame" x="0.0" y="447" width="320" height="70"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="INr-9i-9cS">
+                                        <rect key="frame" x="192" y="20" width="108" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                        <state key="normal" title="Stop Broadcast">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="stopBroadcastingTapped:" destination="5sK-jR-D3M" eventType="touchUpInside" id="7jc-ij-gWi"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DOw-sh-9Yi">
+                                        <rect key="frame" x="20" y="20" width="108" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="108" id="JVe-OW-UKa"/>
+                                            <constraint firstAttribute="height" constant="30" id="MmK-fq-4Pr"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                        <state key="normal" title="Start Broadcast">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="startBroadcastingTapped:" destination="5sK-jR-D3M" eventType="touchUpInside" id="E08-Dz-2Pd"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="DOw-sh-9Yi" firstAttribute="leading" secondItem="VI9-pg-vwJ" secondAttribute="leading" constant="20" symbolic="YES" id="0a6-zz-wPi"/>
+                                    <constraint firstItem="INr-9i-9cS" firstAttribute="leading" secondItem="DOw-sh-9Yi" secondAttribute="trailing" constant="64" id="0em-PU-Zmz"/>
+                                    <constraint firstItem="DOw-sh-9Yi" firstAttribute="bottom" secondItem="INr-9i-9cS" secondAttribute="bottom" id="3cX-Qr-tsg"/>
+                                    <constraint firstItem="DOw-sh-9Yi" firstAttribute="top" secondItem="INr-9i-9cS" secondAttribute="top" id="NOl-RJ-jOo"/>
+                                    <constraint firstAttribute="bottom" secondItem="INr-9i-9cS" secondAttribute="bottom" constant="20" id="RbM-ZL-vQQ"/>
+                                    <constraint firstItem="INr-9i-9cS" firstAttribute="top" secondItem="VI9-pg-vwJ" secondAttribute="top" constant="20" id="T5x-81-qVM"/>
+                                    <constraint firstAttribute="trailing" secondItem="INr-9i-9cS" secondAttribute="trailing" constant="20" id="dt0-Zz-JkS"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="iJP-0h-TNJ" firstAttribute="leading" secondItem="GTM-XD-NhB" secondAttribute="leading" id="6gH-EI-ezh"/>
+                            <constraint firstItem="NRG-Wr-YOw" firstAttribute="top" secondItem="VI9-pg-vwJ" secondAttribute="bottom" constant="2" id="6mr-i9-Rgc"/>
+                            <constraint firstItem="ezN-bM-6Ns" firstAttribute="top" secondItem="iJP-0h-TNJ" secondAttribute="bottom" constant="8" id="NzK-9t-aQx"/>
+                            <constraint firstItem="VI9-pg-vwJ" firstAttribute="top" secondItem="ezN-bM-6Ns" secondAttribute="bottom" id="SrY-6m-x3X"/>
+                            <constraint firstAttribute="trailing" secondItem="ezN-bM-6Ns" secondAttribute="trailing" id="ULl-dK-I9v"/>
+                            <constraint firstItem="iJP-0h-TNJ" firstAttribute="top" secondItem="0b7-EK-1d9" secondAttribute="bottom" id="XlQ-rN-oVg"/>
+                            <constraint firstItem="VI9-pg-vwJ" firstAttribute="leading" secondItem="GTM-XD-NhB" secondAttribute="leading" id="aPP-AV-GNm"/>
+                            <constraint firstAttribute="trailing" secondItem="iJP-0h-TNJ" secondAttribute="trailing" id="asn-GR-gg3"/>
+                            <constraint firstAttribute="trailing" secondItem="VI9-pg-vwJ" secondAttribute="trailing" id="xmG-vo-dCs"/>
+                            <constraint firstItem="ezN-bM-6Ns" firstAttribute="leading" secondItem="GTM-XD-NhB" secondAttribute="leading" id="zXs-Db-Oan"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Broadcast" id="y7t-o1-UDJ"/>
                     <toolbarItems/>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+                    <connections>
+                        <outlet property="buttonsContainer" destination="VI9-pg-vwJ" id="Z9q-qK-gLL"/>
+                        <outlet property="cameraSelectionSegmentControl" destination="Zpb-Zm-iYK" id="f9P-Cs-bgx"/>
+                        <outlet property="startBroadcastingButton" destination="DOw-sh-9Yi" id="otK-Qb-g4i"/>
+                        <outlet property="statusLabel" destination="fUg-38-dOI" id="5h2-dF-JZG"/>
+                        <outlet property="stopBroadcastingButton" destination="INr-9i-9cS" id="j8U-UI-ef3"/>
+                        <outlet property="videoPreviewView" destination="ezN-bM-6Ns" id="K37-2E-hI3"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="I2O-ZW-s0S" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

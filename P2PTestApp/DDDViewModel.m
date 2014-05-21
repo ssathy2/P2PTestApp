@@ -7,7 +7,6 @@
 //
 
 #import "DDDViewModel.h"
-#import <objc/objc-runtime.h>
 
 @interface DDDViewModel()
 @property (strong, nonatomic) NSHashTable *listeners;
