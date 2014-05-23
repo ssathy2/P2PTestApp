@@ -23,7 +23,6 @@
 	if (self)
 	{
 		[self setupCameraCaptureSession];
-		self.currentCameraShown = AVCaptureDevicePositionBack;
 	}
 	return self;
 }
@@ -33,15 +32,13 @@
     self.captureSession = [AVCaptureSession new];
     self.captureSession.sessionPreset = AVCaptureSessionPresetMedium;
     self.currentCameraShown = AVCaptureDevicePositionBack;
+	[self updateCurrentCameraShown:self.currentCameraShown];
 }
 
 - (void)updateCurrentCameraShown:(AVCaptureDevicePosition)currentCameraShown
 {
-	if(_currentCameraShown != currentCameraShown)
-	{
-		_currentCameraShown = currentCameraShown;
-		[self updateCamera];
-	}
+	_currentCameraShown = currentCameraShown;
+	[self updateCamera];
 }
 
 - (void)updateCamera

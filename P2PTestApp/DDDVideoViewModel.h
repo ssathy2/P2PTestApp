@@ -14,7 +14,7 @@
 @interface DDDVideoViewModel : DDDViewModel
 
 @property (strong, nonatomic, readonly) NSArray *peerList;
-@property (strong, nonatomic, readonly) DDDVideoOutputStreamingController *streamingController;
+@property (strong, nonatomic, readonly) DDDVideoOutputStreamingController *outputStreamingController;
 @property (strong, nonatomic, readonly) DDDAVCaptureManager *captureManager;
 
 - (void)setMode:(DDDSessionMode)mode;

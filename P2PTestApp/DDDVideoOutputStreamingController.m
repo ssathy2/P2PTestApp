@@ -1,4 +1,4 @@
-//
+ //
 //  DDDVideoOutputStreamingController.m
 //  P2PTestApp
 //
@@ -7,9 +7,8 @@
 //
 
 #import "DDDVideoOutputStreamingController.h"
-#import "DDDOutputVideoStream.h"
 
-@interface DDDVideoOutputStreamingController()<AVCaptureVideoDataOutputSampleBufferDelegate, NSStreamDelegate>
+@interface DDDVideoOutputStreamingController()<AVCaptureVideoDataOutputSampleBufferDelegate>
 @property (strong, nonatomic) NSMutableDictionary *peerToStreamMapping;
 @property (strong, nonatomic) AVCaptureSession *captureSession;
 @property (strong, nonatomic) AVCaptureVideoDataOutput *captureOutput;
@@ -55,18 +54,14 @@
 	self.streamingRunLoop = [NSRunLoop currentRunLoop];
 }
 
-
-- (NSOutputStream *)startStreamWithDeviceID:(MCPeerID *)peerID
+- (DDDOutputVideoStream *)startStreamWithDeviceID:(MCPeerID *)peerID
 {
 	NSAssert(peerID, @"Can't start stream without a valid peerID");
-	
 	DDDOutputVideoStream *stream = [self.peerToStreamMapping objectForKey:peerID];
 	if (!stream)
 	{
 		stream = [DDDOutputVideoStream videoStreamWithCaptureOutput:self.captureOutput];
-		stream.delegate = self;
-		[stream scheduleInRunLoop:self.streamingRunLoop forMode:NSDefaultRunLoopMode];
-		[stream open];
+		[stream startStream];
 	}
 	return stream;
 }
@@ -77,16 +72,9 @@
 	DDDOutputVideoStream *stream = [self.peerToStreamMapping objectForKey:peerID];
 	if (stream)
 	{
-		[stream removeFromRunLoop:self.streamingRunLoop forMode:NSDefaultRunLoopMode];
-		[stream close];
+		[stream stopStream];
 		[self.peerToStreamMapping removeObjectForKey:peerID];
 	}
-}
-
-#pragma mark - NSStreamDelegate Methods
-- (void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode
-{
-	
 }
 
 @end

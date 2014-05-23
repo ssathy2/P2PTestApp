@@ -36,7 +36,7 @@
 	}
 	
 	bytesPerRow = CVPixelBufferGetBytesPerRow(imageBuffer);
-	return [NSData dateFromImageBuffer:imageBuffer withBytesPerRow:bytesPerRow withHeight:imageSize.height];
+	return [NSData dataFromImageBuffer:imageBuffer withBytesPerRow:bytesPerRow withHeight:imageSize.height];
 	
 }
 
@@ -46,7 +46,7 @@
 	return NULL;
 }
 
-+ (NSData *)dateFromImageBuffer:(CVImageBufferRef)imageBuffer withBytesPerRow:(size_t)bytesPerRow withHeight:(NSInteger)height
++ (NSData *)dataFromImageBuffer:(CVImageBufferRef)imageBuffer withBytesPerRow:(size_t)bytesPerRow withHeight:(NSInteger)height
 {
 	CVPixelBufferLockBaseAddress(imageBuffer, 0);
 	void *rawBuffer = CVPixelBufferGetBaseAddress(imageBuffer);

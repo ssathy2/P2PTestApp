@@ -9,21 +9,26 @@
 #import "DDDOutputVideoStream.h"
 #define DDDBufferDelegateQueue "com.ddd.videopreviewdelegatequeue"
 
-@interface DDDOutputVideoStream()<AVCaptureVideoDataOutputSampleBufferDelegate>
-@property (strong, nonatomic) dispatch_queue_t delegateQueue;
-@property (strong, nonatomic) NSMutableData *outputDataBuffer;
+@interface DDDOutputVideoStream()<AVCaptureVideoDataOutputSampleBufferDelegate, NSStreamDelegate>
+@property (assign, nonatomic) dispatch_queue_t delegateQueue;
 @property (strong, nonatomic) AVCaptureVideoDataOutput *outputDevice;
 @property (assign, nonatomic) NSInteger overallBytesWritten;
-@property (strong, nonatomic) NSLock *dataBufferLock;
+@property (strong, nonatomic) NSOutputStream *stream;
 @end
 
 @implementation DDDOutputVideoStream
+
 + (instancetype)videoStreamWithCaptureOutput:(AVCaptureVideoDataOutput *)output
 {
 	DDDOutputVideoStream *stream = [DDDOutputVideoStream new];
 	stream.outputDevice = output;
-	
 	return stream;
+}
+
+- (void)setOutputDevice:(AVCaptureVideoDataOutput *)outputDevice
+{
+	_outputDevice = outputDevice;
+	[_outputDevice setSampleBufferDelegate:self queue:self.delegateQueue];
 }
 
 - (id)init
@@ -33,46 +38,9 @@
 	{
 		self.overallBytesWritten = 0;
 		self.delegateQueue = dispatch_queue_create(DDDBufferDelegateQueue, DISPATCH_QUEUE_SERIAL);
+		self.stream = [NSOutputStream outputStreamToMemory];
 	}
 	return self;
-}
-
-// NSOutputStream methods
-- (NSInteger)write:(const uint8_t *)buffer maxLength:(NSUInteger)len
-{
-	// Take available bytes in the output data buffer and write it into the buffer
-	if ([self.dataBufferLock tryLock])
-	{
-		[self.dataBufferLock lock];
-		NSInteger bytesWritten = 0;
-		
-		if (len >= self.outputDataBuffer.length)
-		{
-			// The amount of data we can write is greater than the amount in the buffer
-			bytesWritten = self.outputDataBuffer.length;
-			memcpy(&buffer, self.outputDataBuffer.bytes, bytesWritten);
-		}
-		else
-		{
-			// The amount of data we can write is less than the amount in the buffer
-			bytesWritten = len;
-			memcpy(&buffer, self.outputDataBuffer.bytes, bytesWritten);
-			NSRange zeroRange = {self.overallBytesWritten,bytesWritten};
-			[self.outputDataBuffer replaceBytesInRange:zeroRange withBytes:NULL];
-		}
-			
-		self.overallBytesWritten += bytesWritten;
-		[self.dataBufferLock unlock];
-		return bytesWritten;
-	}
-	else
-		return 0;
-}
-
-- (BOOL)hasSpaceAvailable
-{
-	// Return YES for now...
-	return YES;
 }
 
 //AVCaptureVideoDataOutputSampleBufferDelegate methods
@@ -88,12 +56,43 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 	   fromConnection:(AVCaptureConnection *)connection
 {
 	// Add the sample buffer to the data. Since we've got a serial queue, the frames can be added in order at which they're recieved
-	if ([self.dataBufferLock tryLock])
+	[self writeBufferToStream:sampleBuffer];
+	NSLog(@"Capture Output Delegate Called!");
+}
+
+// Helpers
+- (void)writeBufferToStream:(CMSampleBufferRef)sampleBuffer
+{
+	if ([self.stream hasSpaceAvailable])
 	{
-		[self.dataBufferLock lock];
-		[self.outputDataBuffer appendData:[NSData dataFromSampleBuffer:sampleBuffer]];
-		[self.dataBufferLock unlock];
+		NSData *data = [NSData dataFromSampleBuffer:sampleBuffer];
+		[self.stream write:data.bytes maxLength:data.length];
+		self.overallBytesWritten += data.length;
 	}
+}
+
+- (void)startStream
+{
+	if (self.stream.streamStatus == NSStreamStatusNotOpen)
+	{
+		[self.stream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+		self.stream.delegate = self;
+		[self.stream open];
+	}
+}
+
+- (void)stopStream
+{
+	if (self.stream.streamStatus == NSStreamStatusOpen)
+	{
+		[self.stream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+		[self.stream close];
+	}
+}
+
+- (void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode
+{
+	NSLog(@"Stream Event");
 }
 
 @end

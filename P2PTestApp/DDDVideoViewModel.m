@@ -13,7 +13,7 @@
 @property (strong, nonatomic) DDDSessionContainer *sessionContainer;
 @property (strong, nonatomic) NSArray *peerList;
 @property (strong, nonatomic) DDDAVCaptureManager *captureManager;
-@property (strong, nonatomic) DDDVideoOutputStreamingController *streamingController;
+@property (strong, nonatomic) DDDVideoOutputStreamingController *outputStreamingController;
 @end
 
 @implementation DDDVideoViewModel
@@ -26,7 +26,7 @@
 		self.sessionContainer.browsingDelegate = self;
 		self.sessionContainer.dataDalegate = self;
 		self.captureManager = [DDDAVCaptureManager new];
-		self.streamingController = [DDDVideoOutputStreamingController controllerWithCaptureSession:self.captureManager.captureSession];
+		self.outputStreamingController = [DDDVideoOutputStreamingController controllerWithCaptureSession:self.captureManager.captureSession];
 		[self callDelegateListenersWithSelector:@selector(viewModel:didInitializeCaptureManager:) withObject:self.captureManager];
 	}
 	return self;
@@ -95,6 +95,7 @@
 - (void)startVideo
 {
 	[self.captureManager startVideo];
+	NSOutputStream *stream = [self.outputStreamingController startStreamWithDeviceID:[[MCPeerID alloc] initWithDisplayName:@"TEST"]];
 }
 
 - (void)stopVideo

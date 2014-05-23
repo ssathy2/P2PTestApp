@@ -17,8 +17,11 @@
 @property (weak, nonatomic) IBOutlet UILabel *statusLabel;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *cameraSelectionSegmentControl;
 
-@property (strong, nonatomic) DDDVideoViewModel *passthroughViewModel;
+// Preview Layer
 @property (strong, nonatomic) AVCaptureVideoPreviewLayer *previewLayer;
+
+// Passthrough view model
+@property (strong, nonatomic) DDDVideoViewModel *passthroughViewModel;
 @end
 
 @implementation DDDVideoBroadcastViewController
@@ -27,6 +30,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+	self.viewModel = [DDDVideoViewModel new];
 	self.passthroughViewModel = (DDDVideoViewModel *)self.viewModel;
 }
 

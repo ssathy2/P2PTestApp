@@ -20,21 +20,9 @@ typedef NS_ENUM(NSInteger, DDDTabBarContainerIndex)
 @interface DDDContainerViewController ()<UITabBarControllerDelegate, DDDVideoViewModelListener>
 @property (weak, nonatomic) IBOutlet UIView *tabbarContainerView;
 @property (weak, nonatomic) UITabBarController *tabbarController;
-@property (strong, nonatomic) DDDVideoViewModel *viewModel;
 @end
 
 @implementation DDDContainerViewController
-
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
-	self = [super initWithCoder:aDecoder];
-	if (self)
-	{
-		self.viewModel = [[DDDVideoViewModel alloc] init];
-	}
-	return self;
-}
-
 + (NSString *)identifier
 {
 	return DDDContainerViewControllerIdentifier;
@@ -58,29 +46,6 @@ typedef NS_ENUM(NSInteger, DDDTabBarContainerIndex)
 	// Do any additional setup after loading the view, typically from a nib.
 	self.tabBarController.delegate = self;
 }
-
-#pragma mark - UITabBarControllerDelegate
-- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
-{
-	DDDViewController *vc = (DDDViewController *)viewController;
-	switch (tabBarController.selectedIndex)
-	{
-		case DDDTabBarContainerIndexVideoBroadcast:
-		{
-			[self.viewModel setMode:DDDSessionModeBroadcasting];
-			break;
-		}
-		case DDDTabBarContainerIndexVideoRoom:
-		{
-			[self.viewModel setMode:DDDSessionModeBrowsing];
-			break;
-		}
-		default:
-			break;
-	}
-	vc.viewModel = self.viewModel;
-}
-
 
 - (void)didReceiveMemoryWarning
 {

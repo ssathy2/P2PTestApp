@@ -34,8 +34,18 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-	
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
 	[self.viewModel registerListener:self];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+	[super viewWillDisappear:animated];
+	[self.viewModel deregisterListener:self];
 }
 
 - (NSDictionary *)segueIdentifierToContainerViewControllerMapping
