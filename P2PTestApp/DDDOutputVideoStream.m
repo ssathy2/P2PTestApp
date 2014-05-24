@@ -10,7 +10,7 @@
 #define DDDBufferDelegateQueue "com.ddd.videopreviewdelegatequeue"
 
 @interface DDDOutputVideoStream()<AVCaptureVideoDataOutputSampleBufferDelegate, NSStreamDelegate>
-@property (assign, nonatomic) dispatch_queue_t delegateQueue;
+@property (strong, nonatomic) dispatch_queue_t delegateQueue;
 @property (strong, nonatomic) AVCaptureVideoDataOutput *outputDevice;
 @property (assign, nonatomic) NSInteger overallBytesWritten;
 @property (strong, nonatomic) NSOutputStream *stream;
