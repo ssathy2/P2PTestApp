@@ -37,7 +37,6 @@
 		DEDAD84318EA5DEA0020644C /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEDAD84218EA5DEA0020644C /* CoreVideo.framework */; };
 		DEDAD84618EA5EB50020644C /* DDDVideoRoomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DEDAD84518EA5EB50020644C /* DDDVideoRoomViewController.m */; };
 		DEDAD84918EA5EC30020644C /* DDDVideoBroadcastViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DEDAD84818EA5EC30020644C /* DDDVideoBroadcastViewController.m */; };
-		DEDAD85118EA5F5A0020644C /* DDDSessionContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = DEDAD85018EA5F5A0020644C /* DDDSessionContainer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,8 +102,6 @@
 		DEDAD84518EA5EB50020644C /* DDDVideoRoomViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDDVideoRoomViewController.m; sourceTree = "<group>"; };
 		DEDAD84718EA5EC30020644C /* DDDVideoBroadcastViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDDVideoBroadcastViewController.h; sourceTree = "<group>"; };
 		DEDAD84818EA5EC30020644C /* DDDVideoBroadcastViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDDVideoBroadcastViewController.m; sourceTree = "<group>"; };
-		DEDAD84F18EA5F5A0020644C /* DDDSessionContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDDSessionContainer.h; sourceTree = "<group>"; };
-		DEDAD85018EA5F5A0020644C /* DDDSessionContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDDSessionContainer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -316,8 +313,6 @@
 		DEDAD84B18EA5F360020644C /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				DEDAD84F18EA5F5A0020644C /* DDDSessionContainer.h */,
-				DEDAD85018EA5F5A0020644C /* DDDSessionContainer.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -437,7 +432,6 @@
 				DECC65D619205D770076D3AB /* DDDVideoReceptionViewController.m in Sources */,
 				DE78816619301C9A005A50A1 /* DDDStreamingContainer.m in Sources */,
 				DE788159192C58ED005A50A1 /* DDDOutputVideoStream.m in Sources */,
-				DEDAD85118EA5F5A0020644C /* DDDSessionContainer.m in Sources */,
 				DEDAD81C18EA5D400020644C /* DDDAppDelegate.m in Sources */,
 				DE0DC63418FB3322006A47D9 /* NSMutableArray+Modification.m in Sources */,
 			);

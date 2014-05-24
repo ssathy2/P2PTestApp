@@ -7,12 +7,15 @@
 //
 
 #import "DDDAppDelegate.h"
+#import "DDDPeerKitContainer.h"
 
 @implementation DDDAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+	
+	[[DDDPeerKitContainer sharedInstance] updateDisplayName:@"TEST PEER ID"];
     return YES;
 }
 							
@@ -45,7 +48,7 @@
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application
 {
-	
+	NSLog(@"Memory Warning");
 }
 
 @end

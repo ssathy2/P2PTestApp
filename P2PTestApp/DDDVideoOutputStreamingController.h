@@ -13,7 +13,6 @@
 
 + (instancetype)controllerWithCaptureSession:(AVCaptureSession *)session;
 
-// This method initalizes an output stream and fills the stream with the frames from the output device and starts the stream
-- (DDDOutputVideoStream *)startStreamWithDeviceID:(MCPeerID *)peerID;
-- (void)stopStreamWithDeviceID:(MCPeerID *)peerID;
+- (void)startStreamingToPeers:(NSArray *)peers;
+- (void)stopStreamingToPeers:(NSArray *)peers;
 @end

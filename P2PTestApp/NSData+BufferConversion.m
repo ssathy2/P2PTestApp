@@ -16,7 +16,8 @@
 
 + (NSData *)dataFromSampleBuffer:(CMSampleBufferRef)buffer
 {
-	CVPixelBufferPoolRef pool = [[NSData class] bufferPool];
+	NSData *data = [NSData new];
+	CVPixelBufferPoolRef pool = [data bufferPool];
 	size_t bytesPerRow;
 	CGSize imageSize;
 	
@@ -25,7 +26,7 @@
 	{
 		imageBuffer = CMSampleBufferGetImageBuffer(buffer);
 		imageSize = CVImageBufferGetDisplaySize(imageBuffer);
-		[[NSData class] setBufferPool:[NSData bufferPoolWithWidth:imageSize.width withHeight:imageSize.height]];
+		[data setBufferPool:[NSData bufferPoolWithWidth:imageSize.width withHeight:imageSize.height]];
 	}
 	else
 	{

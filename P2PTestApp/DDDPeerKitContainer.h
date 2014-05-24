@@ -20,6 +20,7 @@ typedef NS_ENUM(NSInteger, DDDSessionMode)
 @property (readonly, nonatomic) NSMutableArray *foundPeers;
 @property (nonatomic, assign) DDDSessionMode sessionMode;
 
++ (instancetype)sharedInstance;
 - (void)updateDisplayName:(NSString *)displayName;
 - (void)connectToPeer:(MCPeerID*)peer callback:(void (^)(BOOL connected, NSError *error))callback;
 - (void)disconnectFromPeer:(MCPeerID*)peer;

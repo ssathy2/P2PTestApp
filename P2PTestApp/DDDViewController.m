@@ -7,9 +7,8 @@
 //
 
 #import "DDDViewController.h"
-
+#import "DDDPeerKitContainer.h"
 @interface DDDViewController ()<DDDViewModelListener>
-
 @end
 
 @implementation DDDViewController

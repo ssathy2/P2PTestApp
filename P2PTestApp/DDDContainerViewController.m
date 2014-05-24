@@ -7,7 +7,6 @@
 //
 
 #import "DDDViewControllers.h"
-#import "DDDSessionContainer.h"
 #import "DDDMainStoryboardIdentifiers.h"
 #import "DDDVideoViewModel.h"
 

@@ -7,7 +7,6 @@
 //
 
 #import "DDDViewModel.h"
-#import "DDDSessionContainer.h"
 #import "DDDVideoOutputStreamingController.h"
 #import "DDDAVCaptureManager.h"
 
@@ -17,17 +16,6 @@
 @property (strong, nonatomic, readonly) DDDVideoOutputStreamingController *outputStreamingController;
 @property (strong, nonatomic, readonly) DDDAVCaptureManager *captureManager;
 
-- (void)setMode:(DDDSessionMode)mode;
-
-- (void)connectToPeer:(MCPeerID*)peer;
-- (void)disconnectFromPeer:(MCPeerID*)peer;
-
-- (void)sendDataToAllConnectedPeers:(NSData*)data;
-- (void)sendStreamToAllConnectedPeers:(NSOutputStream*)outputStream;
-
-- (void)sendData:(NSData*)data toPeer:(MCPeerID*)peer;
-- (void)sendStream:(NSOutputStream*)stream toPeer:(MCPeerID*)peer;
-
 // AV Capture Related
 - (void)startVideo;
 - (void)stopVideo;
@@ -35,10 +23,5 @@
 @end
 
 @protocol  DDDVideoViewModelListener <DDDViewModelListener> @optional
-- (void)viewModel:(DDDVideoViewModel *)videoModel didConnectToPeer:(MCPeerID *)peer;
-- (void)viewModel:(DDDVideoViewModel *)videoModel didDisconnectFromPeer:(MCPeerID *)peer;
-- (void)viewModel:(DDDVideoViewModel *)videoModel didUpdateFoundPeers:(NSArray *)foundArray;
-- (void)viewModel:(DDDVideoViewModel *)videoModel didUpdateStream:(NSOutputStream *)stream;
-- (void)viewModel:(DDDVideoViewModel *)videoModel didRecieveData:(NSData *)data;
 - (void)viewModel:(DDDVideoViewModel *)videoModel didInitializeCaptureManager:(DDDAVCaptureManager *)captureManager;
 @end

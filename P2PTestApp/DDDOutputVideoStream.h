@@ -8,10 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
-@interface DDDOutputVideoStream : NSObject
-@property (strong, nonatomic, readonly) NSOutputStream *stream;
+@class DDDOutputVideoStream;
 
-+ (instancetype)videoStreamWithCaptureOutput:(AVCaptureVideoDataOutput *)output;
+@protocol DDDOutputVideoStreamDataSource <NSObject>
+- (NSData *)dataToWriteToStreamID:(NSUUID *)streamID;
+@end
+
+@interface DDDOutputVideoStream : NSObject<NSCopying>
+@property (strong, nonatomic, readonly) NSUUID *streamIdentifier;
+@property (strong, nonatomic, readonly) NSOutputStream *stream;
+@property (weak, nonatomic)	id<DDDOutputVideoStreamDataSource> datasource;
 - (void)startStream;
 - (void)stopStream;
 @end

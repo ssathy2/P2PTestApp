@@ -7,29 +7,15 @@
 //
 
 #import "DDDOutputVideoStream.h"
-#define DDDBufferDelegateQueue "com.ddd.videopreviewdelegatequeue"
 
-@interface DDDOutputVideoStream()<AVCaptureVideoDataOutputSampleBufferDelegate, NSStreamDelegate>
-@property (strong, nonatomic) dispatch_queue_t delegateQueue;
-@property (strong, nonatomic) AVCaptureVideoDataOutput *outputDevice;
+@interface DDDOutputVideoStream()<NSStreamDelegate>
 @property (assign, nonatomic) NSInteger overallBytesWritten;
 @property (strong, nonatomic) NSOutputStream *stream;
+@property (strong, nonatomic) NSOperationQueue *streamWriteQueue;
+@property (strong, nonatomic) NSUUID *streamIdentifier;
 @end
 
 @implementation DDDOutputVideoStream
-
-+ (instancetype)videoStreamWithCaptureOutput:(AVCaptureVideoDataOutput *)output
-{
-	DDDOutputVideoStream *stream = [DDDOutputVideoStream new];
-	stream.outputDevice = output;
-	return stream;
-}
-
-- (void)setOutputDevice:(AVCaptureVideoDataOutput *)outputDevice
-{
-	_outputDevice = outputDevice;
-	[_outputDevice setSampleBufferDelegate:self queue:self.delegateQueue];
-}
 
 - (id)init
 {
@@ -37,38 +23,22 @@
 	if(self)
 	{
 		self.overallBytesWritten = 0;
-		self.delegateQueue = dispatch_queue_create(DDDBufferDelegateQueue, DISPATCH_QUEUE_SERIAL);
 		self.stream = [NSOutputStream outputStreamToMemory];
+		self.streamWriteQueue = [NSOperationQueue new];
+		self.streamWriteQueue.maxConcurrentOperationCount = 1;
+		self.streamIdentifier = [NSUUID UUID];
 	}
 	return self;
 }
 
-//AVCaptureVideoDataOutputSampleBufferDelegate methods
-- (void)captureOutput:(AVCaptureOutput *)captureOutput
-  didDropSampleBuffer:(CMSampleBufferRef)sampleBuffer
-	   fromConnection:(AVCaptureConnection *)connection
+- (id)copyWithZone:(NSZone *)zone
 {
-	// TODO: Figure out how to process dropped frames...Ignore dropped frames for now
-}
-
-- (void)captureOutput:(AVCaptureOutput *)captureOutput
-didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
-	   fromConnection:(AVCaptureConnection *)connection
-{
-	// Add the sample buffer to the data. Since we've got a serial queue, the frames can be added in order at which they're recieved
-	[self writeBufferToStream:sampleBuffer];
-	NSLog(@"Capture Output Delegate Called!");
-}
-
-// Helpers
-- (void)writeBufferToStream:(CMSampleBufferRef)sampleBuffer
-{
-	if ([self.stream hasSpaceAvailable])
-	{
-		NSData *data = [NSData dataFromSampleBuffer:sampleBuffer];
-		[self.stream write:data.bytes maxLength:data.length];
-		self.overallBytesWritten += data.length;
-	}
+    DDDOutputVideoStream *copy = [super copy];
+	copy.overallBytesWritten = self.overallBytesWritten;
+	copy.stream = self.stream;
+	copy.streamWriteQueue = self.streamWriteQueue;
+	copy.streamIdentifier = self.streamIdentifier;
+    return copy;
 }
 
 - (void)startStream
@@ -86,13 +56,60 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 	if (self.stream.streamStatus == NSStreamStatusOpen)
 	{
 		[self.stream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+	
 		[self.stream close];
 	}
 }
 
 - (void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode
 {
-	NSLog(@"Stream Event");
+	switch (eventCode) {
+		case NSStreamEventNone:
+			break;
+		case NSStreamEventOpenCompleted:
+			[self handleStreamOpenComplete];
+			break;
+		case NSStreamEventHasSpaceAvailable:
+			[self handleStreamHasSpace];
+			break;
+		case NSStreamEventErrorOccurred:
+			[self handleStreamError];
+			break;
+		case NSStreamEventEndEncountered:
+			[self handleStreamEnd];
+			break;
+			
+		default:
+			break;
+	}
+}
+
+- (void)handleStreamOpenComplete
+{
+	NSLog(@"Stream Open Complete: %@", self.stream);
+}
+
+- (void)handleStreamHasSpace
+{
+	NSLog(@"Stream Has Space: %@", self.stream);
+	if(self.datasource)
+	{
+		NSData *data = [self.datasource dataToWriteToStreamID:self.streamIdentifier];
+		if(data)
+		{	
+			[self.stream write:data.bytes maxLength:data.length];
+		}
+	}
+}
+
+- (void)handleStreamError
+{
+	NSLog(@"Stream Error: %@", self.stream);
+}
+
+- (void)handleStreamEnd
+{
+	NSLog(@"Stream END: %@", self.stream);
 }
 
 @end
