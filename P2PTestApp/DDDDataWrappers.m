@@ -10,14 +10,25 @@
 
 @interface DDDRemoteWrapper()
 @property (strong, nonatomic) MCPeerID *sourcePeer;
+
+- (id)initWithSourcePeer:(MCPeerID *)peerID;
 @end
 
 @implementation DDDRemoteWrapper
 + (instancetype)wrapperWithSourcePeer:(MCPeerID *)sourcePeer
 {
-	DDDRemoteWrapper *remoteWrapper = [DDDRemoteWrapper new];
-	remoteWrapper.sourcePeer = sourcePeer;
+	DDDRemoteWrapper *remoteWrapper = [[DDDRemoteWrapper alloc] initWithSourcePeer:sourcePeer];
 	return remoteWrapper;
+}
+
+- (id)initWithSourcePeer:(MCPeerID *)peerID
+{
+	self = [super init];
+	if (self)
+	{
+		self.sourcePeer = peerID;
+	}
+	return self;
 }
 @end
 
@@ -28,21 +39,34 @@
 @implementation DDDRemoteDataWrapper
 + (instancetype)wrapperWithData:(NSData *)data withSourcePeer:(MCPeerID *)peerID
 {
-	DDDRemoteDataWrapper *wrapper = [DDDRemoteDataWrapper wrapperWithSourcePeer:peerID];
+	DDDRemoteDataWrapper *wrapper = [[DDDRemoteDataWrapper alloc] initWithSourcePeer:peerID];
 	wrapper.data = data;
 	return wrapper;
 }
 @end
 
-@interface DDDRemoteStreamWrapper()
+@interface DDDRemoteInputStreamWrapper()
 @property (strong, nonatomic) NSInputStream *inputStream;
 @end
 
-@implementation DDDRemoteStreamWrapper
+@implementation DDDRemoteInputStreamWrapper
 + (instancetype)wrapperWithStream:(NSInputStream *)inputStream withSourcePeer:(MCPeerID *)sourcePeer
 {
-	DDDRemoteStreamWrapper *wrapper = [DDDRemoteStreamWrapper wrapperWithSourcePeer:sourcePeer];
+	DDDRemoteInputStreamWrapper *wrapper = [[DDDRemoteInputStreamWrapper alloc] initWithSourcePeer:sourcePeer];
 	wrapper.inputStream = inputStream;
+	return wrapper;
+}
+@end
+
+@interface DDDRemoteOutputStreamWrapper()
+@property (strong, nonatomic) NSOutputStream *outputStream;
+@end
+
+@implementation DDDRemoteOutputStreamWrapper
++ (instancetype)wrapperWithStream:(NSOutputStream *)outputStream withSourcePeer:(MCPeerID *)sourcePeer
+{
+	DDDRemoteOutputStreamWrapper *wrapper = [[DDDRemoteOutputStreamWrapper alloc] initWithSourcePeer:sourcePeer];
+	wrapper.outputStream = outputStream;
 	return wrapper;
 }
 @end

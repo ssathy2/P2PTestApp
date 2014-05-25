@@ -18,8 +18,12 @@
 @property (strong, nonatomic, readonly) NSData *data;
 @end
 
-@interface DDDRemoteStreamWrapper : DDDRemoteWrapper
+@interface DDDRemoteInputStreamWrapper : DDDRemoteWrapper
 + (instancetype)wrapperWithStream:(NSInputStream *)inputStream withSourcePeer:(MCPeerID *)sourcePeer;
 @property (strong, nonatomic, readonly) NSInputStream *inputStream;
 @end
 
+@interface DDDRemoteOutputStreamWrapper: DDDRemoteWrapper
++ (instancetype)wrapperWithStream:(NSOutputStream *)outputStream withSourcePeer:(MCPeerID *)sourcePeer;
+@property (strong, nonatomic, readonly) NSOutputStream *outputStream;
+@end

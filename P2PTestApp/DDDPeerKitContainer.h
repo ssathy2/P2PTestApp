@@ -18,26 +18,34 @@ typedef NS_ENUM(NSInteger, DDDSessionMode)
 @interface DDDPeerKitContainer : DDDViewModel
 @property (readonly, nonatomic) MCPeerID *appPeerID;
 @property (readonly, nonatomic) NSMutableArray *foundPeers;
+@property (readonly, nonatomic) NSMutableArray *connectedPeers;
 @property (nonatomic, assign) DDDSessionMode sessionMode;
 
 + (instancetype)sharedInstance;
 - (void)updateDisplayName:(NSString *)displayName;
-- (void)connectToPeer:(MCPeerID*)peer callback:(void (^)(BOOL connected, NSError *error))callback;
-- (void)disconnectFromPeer:(MCPeerID*)peer;
+- (void)connectToPeer:(MCPeerID*)peer;
+- (void)disconnect;
 
 - (void)sendDataToAllConnectedPeers:(NSData*)data;
-- (void)sendStreamToAllConnectedPeers:(NSOutputStream*)outputStream;
+- (void)startStreamWithAllPeers;
 
 - (void)sendData:(NSData*)data toPeer:(MCPeerID*)peer;
-- (void)sendStream:(NSOutputStream*)stream toPeer:(MCPeerID*)peer;
 @end
 
 @protocol DDDPeerKitBrowsingListener <DDDViewModelListener> @optional
 - (void)peerkitContainer:(DDDPeerKitContainer *)peerkitContainer didUpdateFoundPeerList:(NSArray *)peerList;
+- (void)peerkitContainer:(DDDPeerKitContainer *)peerkitContainer didUpdateConnectedPeerList:(NSArray *)connectedPeerList;
+@end
+
+@protocol DDDPeerKitConnectionListener <DDDViewModelListener> @optional
+- (void)peerkitContainer:(DDDPeerKitContainer *)peerkitContainer didConnectToPeer:(MCPeerID *)peer;
+- (void)peerkitContainer:(DDDPeerKitContainer *)peerkitContainer didDisconnectFromPeer:(MCPeerID *)peer;
+- (void)peerkitContainer:(DDDPeerKitContainer *)peerkitContainer didStartConnectingToPeer:(MCPeerID *)peer;
+- (void)peerkitContainer:(DDDPeerKitContainer *)peerkitContainer didOpenStream:(DDDRemoteOutputStreamWrapper *)stream;
 @end
 
 @protocol DDDPeerKitDataReceptionListener <DDDViewModelListener> @optional
 - (void)peerkitContainer:(DDDPeerKitContainer *)peerkitContainer didReceiveData:(DDDRemoteDataWrapper *)data;
-- (void)peerKitContainer:(DDDPeerKitContainer *)peerkitConainer didRecieveStream:(DDDRemoteStreamWrapper *)stream;
+- (void)peerKitContainer:(DDDPeerKitContainer *)peerkitConainer didRecieveStream:(DDDRemoteInputStreamWrapper *)stream;
 @end
 

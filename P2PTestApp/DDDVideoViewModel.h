@@ -12,7 +12,7 @@
 
 @interface DDDVideoViewModel : DDDViewModel
 
-@property (strong, nonatomic, readonly) NSArray *peerList;
+@property (strong, nonatomic, readonly) NSArray *connectedPeers;
 @property (strong, nonatomic, readonly) DDDVideoOutputStreamingController *outputStreamingController;
 @property (strong, nonatomic, readonly) DDDAVCaptureManager *captureManager;
 
@@ -22,6 +22,7 @@
 - (void)displayCamera:(AVCaptureDevicePosition)position;
 @end
 
-@protocol  DDDVideoViewModelListener <DDDViewModelListener> @optional
+@protocol DDDVideoViewModelListener <DDDViewModelListener> @optional
 - (void)viewModel:(DDDVideoViewModel *)videoModel didInitializeCaptureManager:(DDDAVCaptureManager *)captureManager;
+- (void)viewModel:(DDDVideoViewModel *)videoModel didUpdateConnectedPeers:(NSArray *)connectedPeers;
 @end

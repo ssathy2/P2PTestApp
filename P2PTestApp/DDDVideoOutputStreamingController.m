@@ -7,19 +7,27 @@
 //
 
 #import "DDDVideoOutputStreamingController.h"
+#import "DDDPeerKitContainer.h"
+#import "DDDBufferConverter.h"
 
 #define DDDBufferDelegateQueue "DDDBufferDelegateQueue"
 
-@interface DDDVideoOutputStreamingController()<AVCaptureVideoDataOutputSampleBufferDelegate, DDDOutputVideoStreamDataSource>
-@property (strong, nonatomic) NSMutableDictionary *peerToStreamMapping;
-@property (strong, nonatomic) NSLock *peerToStreamLock;
-
-@property (strong, nonatomic) NSMutableDictionary *streamToDataToWriteMapping;
-@property (strong, nonatomic) NSLock *streamDataToWriteLock;
-
+@interface DDDVideoOutputStreamingController()<AVCaptureVideoDataOutputSampleBufferDelegate, DDDOutputVideoStreamDataSource, DDDPeerKitConnectionListener>
+// AV Capture Related
 @property (strong, nonatomic) AVCaptureSession *captureSession;
 @property (strong, nonatomic) AVCaptureVideoDataOutput *captureOutput;
 @property (strong, nonatomic) dispatch_queue_t queue;
+
+// Peer to Stream Mapping
+@property (strong, nonatomic) NSHashTable *streams;
+@property (strong, nonatomic) NSLock *streamsLock;
+
+// Stream to Data Mapping
+@property (strong, nonatomic) NSMutableDictionary *streamToDataMapping;
+@property (strong, nonatomic) NSLock *streamToDataLock;
+
+// Buffer Conversion
+@property (strong, nonatomic) DDDBufferConverter *bufferConverter;
 @end
 
 @implementation DDDVideoOutputStreamingController
@@ -28,9 +36,13 @@
 	self = [super init];
 	if(self)
 	{
-		self.peerToStreamMapping = [NSMutableDictionary dictionary];
-		self.streamToDataToWriteMapping = [NSMutableDictionary dictionary];
 		self.queue = dispatch_queue_create(DDDBufferDelegateQueue, NULL);
+		self.streams = [NSHashTable hashTableWithOptions:NSPointerFunctionsStrongMemory];
+		self.streamToDataMapping = [NSMutableDictionary dictionary];
+		self.streamsLock = [NSLock new];
+		self.streamToDataLock = [NSLock new];
+		self.bufferConverter = [DDDBufferConverter new];
+		[[DDDPeerKitContainer sharedInstance] registerListener:self];
 	}
 	return self;
 }
@@ -58,46 +70,27 @@
 	}
 }
 
-- (void)startStreamingToPeers:(NSArray *)peers
+- (void)startStreamingToPeers
 {
-	for (MCPeerID *peer in peers)
-	{
-		[self startStreamToPeer:peer];
-	}
+	[[DDDPeerKitContainer sharedInstance] startStreamWithAllPeers];
 }
 
-- (void)stopStreamingToPeers:(NSArray *)peers
+- (void)stopStreamingToPeers
 {
-	for (MCPeerID *peer in peers)
-	{
-		[self stopStreamToPeer:peer];
-	}
+	
 }
 
-- (DDDOutputVideoStream *)startStreamToPeer:(MCPeerID *)peerID
+#pragma mark - DDDPeerKitConnectionListener
+- (void)peerkitContainer:(DDDPeerKitContainer *)peerkitContainer didOpenStream:(DDDRemoteOutputStreamWrapper *)stream
 {
-	NSAssert(peerID, @"Can't start stream without a valid peerID");
-	DDDOutputVideoStream *stream = [self.peerToStreamMapping objectForKey:peerID];
-	if (!stream)
-	{
-		stream = [DDDOutputVideoStream new];
-		[self.peerToStreamMapping setObject:stream forKey:peerID];
-		stream.datasource = self;
-		[stream startStream];
-	}
-	return stream;
+	[self.streamsLock lock];
+	DDDOutputVideoStream *videoStream = [DDDOutputVideoStream outputVideoStreamWithOutputStreamWrapper:stream];
+	videoStream.datasource = self;
+	[self.streams addObject:videoStream];
+	[videoStream startStream];
+	[self.streamsLock unlock];
 }
 
-- (void)stopStreamToPeer:(MCPeerID *)peerID
-{
-	NSAssert(peerID, @"Can't start stream without a AVCaptureVideoDataOutput AND/OR a peerID");
-	DDDOutputVideoStream *stream = [self.peerToStreamMapping objectForKey:peerID];
-	if (stream)
-	{
-		[stream stopStream];
-		[self.peerToStreamMapping removeObjectForKey:peerID];
-	}
-}
 
 //AVCaptureVideoDataOutputSampleBufferDelegate methods
 - (void)captureOutput:(AVCaptureOutput *)captureOutput
@@ -115,26 +108,31 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 	//	[self.streamWriteQueue addOperationWithBlock:^{
 	//		[self writeBufferToStream:sampleBuffer];
 	//	}];
-	NSLog(@"Capture Output Delegate Called!");
-	[self.streamDataToWriteLock lock];
-	for (DDDOutputVideoStream *stream in self.peerToStreamMapping.allValues)
+	[self.streamsLock lock];
+	for (DDDOutputVideoStream *stream in self.streams)
 	{
-		NSMutableData *data = [self.streamToDataToWriteMapping objectForKey:stream.streamIdentifier];
-		[data appendData:[NSData dataFromSampleBuffer:sampleBuffer]];
+		[self.streamToDataLock lock];
+		NSMutableData *data = [self.streamToDataMapping objectForKey:stream.streamIdentifier];
+		if (!data)
+			data = [NSMutableData new];
+		[data appendData:[self.bufferConverter dataFromSampleBuffer:sampleBuffer]];
+		[self.streamToDataMapping setObject:data forKey:stream.streamIdentifier];
+		[self.streamToDataLock unlock];
 	}
-	[self.streamDataToWriteLock unlock];
+	[self.streamsLock unlock];
 }
 
 - (NSData *)dataToWriteToStreamID:(NSUUID *)streamID
 {
 	NSMutableData *dataToWrite = nil;
-	[self.streamDataToWriteLock lock];
-	dataToWrite = [[self.streamToDataToWriteMapping objectForKey:streamID] copy];
-	NSMutableData *ref = [self.streamToDataToWriteMapping objectForKey:streamID];
+	[self.streamToDataLock lock];
+	dataToWrite = [[self.streamToDataMapping objectForKey:streamID] copy];
+	NSMutableData *ref = [self.streamToDataMapping objectForKey:streamID];
 	[ref setLength:0];
 	if (ref)
-		[self.streamToDataToWriteMapping setObject:ref forKey:streamID];
-	[self.streamDataToWriteLock unlock];
+		[self.streamToDataMapping setObject:ref forKey:streamID];
+	
+	[self.streamToDataLock unlock];
 	return dataToWrite;
 }
 @end

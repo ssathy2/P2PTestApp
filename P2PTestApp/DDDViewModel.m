@@ -11,6 +11,7 @@
 @interface DDDViewModel()
 @property (strong, nonatomic) NSHashTable *listeners;
 @end
+
 @implementation DDDViewModel
 - (id)init
 {
@@ -26,7 +27,10 @@
 {
 	if (![self.listeners containsObject:listener])
 	{
-		[self.listeners addObject:listener];
+		if(self.listeners.count == 0)
+			[self didRegisterFirstListener:listener];
+		[self.listeners addObject:listener];		
+		[self didRegisterListener:listener];
 	}
 }
 
@@ -36,6 +40,16 @@
 	{
 		[self.listeners removeObject:listener];
 	}
+}
+
+- (void)didRegisterFirstListener:(id<DDDViewModelListener>)listener;
+{
+	
+}
+
+- (void)didRegisterListener:(id<DDDViewModelListener>)listener
+{
+	
 }
 
 - (void)callDelegateListenersWithSelector:(SEL)selector

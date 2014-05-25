@@ -32,6 +32,7 @@
     // Do any additional setup after loading the view.
 	self.viewModel = [DDDVideoViewModel new];
 	self.passthroughViewModel = (DDDVideoViewModel *)self.viewModel;
+	self.buttonsContainer.hidden = YES;
 }
 
 - (void)setupPreviewLayerWithCaptureManager:(DDDAVCaptureManager *)captureManager
@@ -61,6 +62,12 @@
 - (void)viewModel:(DDDVideoViewModel *)viewModel didInitializeCaptureManager:(DDDAVCaptureManager *)captureManager
 {
 	[self setupPreviewLayerWithCaptureManager:captureManager];
+}
+
+- (void)viewModel:(DDDVideoViewModel *)viewModel didUpdateConnectedPeers:(NSArray *)connectedPeers
+{
+	if(connectedPeers.count > 0)
+		self.buttonsContainer.hidden = NO;
 }
 
 @end

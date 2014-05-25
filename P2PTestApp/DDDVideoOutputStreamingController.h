@@ -13,6 +13,5 @@
 
 + (instancetype)controllerWithCaptureSession:(AVCaptureSession *)session;
 
-- (void)startStreamingToPeers:(NSArray *)peers;
-- (void)stopStreamingToPeers:(NSArray *)peers;
+- (void)startStreamingToPeers;
 @end

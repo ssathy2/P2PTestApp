@@ -47,11 +47,7 @@
 		self.connectedPeers = [NSMutableArray array];
 		self.foundPeers = [NSMutableArray array];
 		self.streamingPeers = [NSMutableArray array];
-		
-		self.serviceAdvertiser.delegate = self;
-		self.serviceBrowser.delegate = self;
-		self.currentSession.delegate = self;
-
+		self.sessionMode = DDDSessionModeBroadcasting;
 	}
 	return self;
 }
@@ -69,17 +65,19 @@
 	self.currentSession = [[MCSession alloc] initWithPeer:self.appPeerID];
 	self.serviceAdvertiser = [[MCNearbyServiceAdvertiser alloc] initWithPeer:self.appPeerID discoveryInfo:nil serviceType:DDDSessionContainerAdvertiserServiceType];
 	self.serviceBrowser = [[MCNearbyServiceBrowser alloc] initWithPeer:self.appPeerID serviceType:DDDSessionContainerAdvertiserServiceType];
+	self.serviceAdvertiser.delegate = self;
+	self.serviceBrowser.delegate = self;
+	self.currentSession.delegate = self;
+	[self updateSessionBroadcastingState];
 }
 
-#pragma mark - Custom Setters
-- (void)setSessionMode:(DDDSessionMode)sessionMode
+- (void)updateSessionBroadcastingState
 {
-	_sessionMode = sessionMode;
 	switch (self.sessionMode)
 	{
 		case DDDSessionModeBroadcasting:
 		{
-			[self.serviceAdvertiser performSelectorInBackground:@selector(startAdvertisingPeer) withObject:nil];
+			[self.serviceAdvertiser startAdvertisingPeer];
 			[self.serviceBrowser stopBrowsingForPeers];
 			break;
 		}
@@ -94,33 +92,11 @@
 	}
 }
 
-#pragma mark - MCSessionDelegate methods
-// Remote peer changed state
-- (void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state
+#pragma mark - Custom Setters
+- (void)setSessionMode:(DDDSessionMode)sessionMode
 {
-	NSLog(@"Peer %@ changed state to %i", peerID, state);
-	//    MCSessionStateNotConnected,     // not in the session
-	//    MCSessionStateConnecting,       // connecting to this peer
-	//    MCSessionStateConnected         // connected to the session
-	switch(state)
-	{
-		case MCSessionStateNotConnected:
-		{
-			[self.connectedPeers safeRemoveObject:peerID];
-			break;
-		}
-		case MCSessionStateConnected:
-		{
-			[self.connectedPeers safeAddObject:peerID];
-			break;
-		}
-		case MCSessionStateConnecting:
-		{
-			break;
-		}
-		default:
-			break;
-	}
+	_sessionMode = sessionMode;
+	[self updateSessionBroadcastingState];
 }
 
 // Received data from remote peer
@@ -134,7 +110,7 @@
 - (void)session:(MCSession *)session didReceiveStream:(NSInputStream *)stream withName:(NSString *)streamName fromPeer:(MCPeerID *)peerID
 {
 	NSLog(@"Recieved a stream(bytes available: %i) from peer: %@", [stream hasBytesAvailable], peerID);
-	[self callDelegateListenersWithSelector:@selector(peerKitContainer:didRecieveStream:) withObject:[DDDRemoteStreamWrapper wrapperWithStream:stream withSourcePeer:peerID]];
+	[self callDelegateListenersWithSelector:@selector(peerKitContainer:didRecieveStream:) withObject:[DDDRemoteInputStreamWrapper wrapperWithStream:stream withSourcePeer:peerID]];
 }
 
 // Start receiving a resource from remote peer
@@ -151,24 +127,59 @@
 
 #pragma mark - MCNearbyServiceAdvertiserDelegate
 // Incoming invitation request.  Call the invitationHandler block with YES and a valid session to connect the inviting peer to the session.
-- (void)advertiser:(MCNearbyServiceAdvertiser *)advertiser didReceiveInvitationFromPeer:(MCPeerID *)peerID withContext:(NSData *)context invitationHandler:(void(^)(BOOL accept, MCSession *session))invitationHandler
+- (void)advertiser:(MCNearbyServiceAdvertiser *)advertiser didReceiveInvitationFromPeer:(MCPeerID *)peerID
+	   withContext:(NSData *)context
+ invitationHandler:(void(^)(BOOL accept, MCSession *session))invitationHandler
 {
-	[self.connectedPeers addObject:peerID];
-	// By default accept this session
+	// Recieved an invitation from a client that wants to start a video streaming session with sender
+	// accept handler
+	// call connected peer listener
 	invitationHandler(YES, self.currentSession);
 }
 
 // Advertising did not start due to an error
 - (void)advertiser:(MCNearbyServiceAdvertiser *)advertiser didNotStartAdvertisingPeer:(NSError *)error
 {
-	NSLog(@"Could not start advertising: %@", error);
+	NSLog(@"Advertising didn't start due to error: %@", error);
+}
+
+#pragma mark - MCSessionDelegate methods
+// Remote peer changed state
+- (void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state
+{
+	//    0: MCSessionStateNotConnected,     // not in the session
+	//    1: MCSessionStateConnecting,       // connecting to this peer
+	//    2: MCSessionStateConnected         // connected to the session
+	NSLog(@"Peer %@ changed state to %i", peerID, state);
+	switch(state)
+	{
+		case MCSessionStateNotConnected:
+		{
+			[self.connectedPeers safeRemoveObject:peerID];
+			[self callDelegateListenersWithSelector:@selector(peerkitContainer:didDisconnectFromPeer:) withObject:peerID];
+			break;
+		}
+		case MCSessionStateConnected:
+		{
+			[self.connectedPeers safeAddObject:peerID];
+			[self callDelegateListenersWithSelector:@selector(peerkitContainer:didConnectToPeer:) withObject:peerID];
+			break;
+		}
+		case MCSessionStateConnecting:
+		{
+			[self callDelegateListenersWithSelector:@selector(peerkitContainer:didStartConnectingToPeer:) withObject:peerID];
+			break;
+		}
+		default:
+			break;
+	}
+	[self callDelegateListenersWithSelector:@selector(peerkitContainer:didUpdateConnectedPeerList:) withObject:self.connectedPeers];
 }
 
 #pragma mark - MCNearbyServiceBrowserDelegate
-// Found a nearby advertising peer
 - (void)browser:(MCNearbyServiceBrowser *)browser foundPeer:(MCPeerID *)peerID withDiscoveryInfo:(NSDictionary *)info
 {
-	NSLog(@"Found new peer with peerid: %@ with discovery info: %@", peerID, info);
+	NSLog(@"Found peer: %@", peerID);
 	[self.foundPeers safeAddObject:peerID];
 	[self callDelegateListenersWithSelector:@selector(peerkitContainer:didUpdateFoundPeerList:) withObject:self.foundPeers];
 }
@@ -176,30 +187,29 @@
 // A nearby peer has stopped advertising
 - (void)browser:(MCNearbyServiceBrowser *)browser lostPeer:(MCPeerID *)peerID
 {
-	NSLog(@"Lost peer with peerid: %@", peerID);
+	NSLog(@"Lost peer: %@", peerID);
 	[self.foundPeers safeRemoveObject:peerID];
 	[self callDelegateListenersWithSelector:@selector(peerkitContainer:didUpdateFoundPeerList:) withObject:self.foundPeers];
 }
 
+- (void)connectToPeer:(MCPeerID *)peer
+{
+	if([self.foundPeers containsObject:peer])
+	{
+		[self.serviceBrowser invitePeer:peer toSession:self.currentSession withContext:nil timeout:-1];
+	}
+}
+
+- (void)disconnect
+{
+	[self.serviceBrowser stopBrowsingForPeers];
+	[self.serviceAdvertiser stopAdvertisingPeer];
+}
+
+// Browsing did not start due to an error
 - (void)browser:(MCNearbyServiceBrowser *)browser didNotStartBrowsingForPeers:(NSError *)error
 {
-	NSLog(@"Could not start browsing for peers: %@", error);
-}
-
-- (void)connectToPeer:(MCPeerID *)peer callback:(void (^)(BOOL, NSError *))callback
-{
-	[self.currentSession nearbyConnectionDataForPeer:peer withCompletionHandler:^(NSData *connectionData, NSError *error) {
-		if (connectionData && !error)
-		{
-			[self.currentSession connectPeer:peer withNearbyConnectionData:connectionData];
-		}
-	}];
-	
-}
-
-- (void)disconnectFromPeer:(MCPeerID *)peer
-{
-	//@TODO: Figure out to disconnect from individual peers
+	NSLog(@"Browsing didn't start due to error: %@", error);
 }
 
 - (void)sendData:(NSData *)data toPeer:(MCPeerID *)peer
@@ -212,20 +222,13 @@
 	return [NSString stringWithFormat:@"DDDStreamOutput_%@", peer.displayName];
 }
 
-- (void)sendStream:(NSOutputStream *)stream toPeer:(MCPeerID *)peer
+- (void)startStreamWithAllPeers
 {
-	if (![self.streamingPeers containsObject:peer])
+	for(MCPeerID *connectedPeer in self.connectedPeers)
 	{
-		[self.currentSession startStreamWithName:[self streamIdentifierWithPeer:peer] toPeer:peer error:nil];
-		[self.streamingPeers addObject:peer];
-	}
-}
-
-- (void)sendStreamToAllConnectedPeers:(NSOutputStream *)outputStream
-{
-	for (MCPeerID *peer in self.connectedPeers)
-	{
-		[self sendStream:outputStream toPeer:peer];
+		NSError *error;
+		NSOutputStream *stream = [self.currentSession startStreamWithName:[self streamIdentifierWithPeer:connectedPeer] toPeer:connectedPeer error:&error];
+		[self callDelegateListenersWithSelector:@selector(peerkitContainer:didOpenStream:) withObject:[DDDRemoteOutputStreamWrapper wrapperWithStream:stream withSourcePeer:connectedPeer]];
 	}
 }
 

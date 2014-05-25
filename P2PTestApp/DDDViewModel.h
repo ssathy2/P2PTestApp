@@ -12,10 +12,13 @@
 @protocol DDDViewModelListener <NSObject> @optional
 @end
 
-@interface DDDViewModel : NSObject
+@interface DDDViewModel : NSObject<DDDViewModelListener>
 
 - (void)registerListener:(id<DDDViewModelListener>)listener;
 - (void)deregisterListener:(id<DDDViewModelListener>)listener;
+
+- (void)didRegisterListener:(id<DDDViewModelListener>)listener;
+- (void)didRegisterFirstListener:(id<DDDViewModelListener>)listener;
 
 - (void)callDelegateListenersWithSelector:(SEL)selector;
 - (void)callDelegateListenersWithSelector:(SEL)selector withObject:(id)object;

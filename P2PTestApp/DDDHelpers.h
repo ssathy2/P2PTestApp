@@ -20,3 +20,9 @@
 
 #define key(_path) (((void)(NO && ((void)_path, NO)), strrchr(# _path, '.') + 1))
 #define keypath(_path) (((void)(NO && ((void)_path, NO)), strchr(# _path, '.') + 1))
+
+#ifdef DEBUG
+#define IS_DEVICE ([[[UIDevice currentDevice] model] rangeOfString:@"Simulator" options:NSCaseInsensitiveSearch].location == NSNotFound)
+#else
+#define IS_DEVICE YES
+#endif

@@ -7,7 +7,8 @@
 //
 
 #import "DDDVideoRoomViewController.h"
-#import "DDDVideoViewModel.h"
+#import "DDDVideoRoomViewModel.h"
+#import "DDDMainStoryboardIdentifiers.h"
 
 #define DDDBrowsingCellIdentifier @"DDDBrowsingCellIdentifier"
 
@@ -20,7 +21,8 @@
 
 @interface DDDVideoRoomViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *roomTableView;
-@property (strong, nonatomic) DDDVideoViewModel *viewModel;
+
+@property (strong, nonatomic) DDDVideoRoomViewModel *passthroughViewModel;
 @end
 
 @implementation DDDVideoRoomViewController
@@ -28,30 +30,41 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+	
+	self.viewModel = [DDDVideoRoomViewModel new];
+	self.passthroughViewModel = (DDDVideoRoomViewModel *)self.viewModel;
 }
 
 #pragma mark - UITableViewDelegate
-
-
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	MCPeerID *selectedPeerID = self.passthroughViewModel.foundPeers[indexPath.row];
+	[self.passthroughViewModel connectToPeer:selectedPeerID];
+}
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section
 {
-	return self.viewModel.peerList.count;
+	return self.passthroughViewModel.foundPeers.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	MCPeerID *peer = self.viewModel.peerList[indexPath.row];
+	MCPeerID *peer = self.passthroughViewModel.foundPeers[indexPath.row];
 	DDDVideoRoomTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:DDDBrowsingCellIdentifier];
 	cell.cellLabel.text = peer.displayName;
 	return cell;
 }
 
-#pragma mark - DDDVideoViewModelListener
-- (void)viewModel:(DDDVideoViewModel *)videoModel didUpdateFoundPeers:(NSArray *)foundArray
+#pragma mark - DDDVideoRoomViewModelListener
+- (void)viewModel:(DDDVideoRoomViewModel *)viewModel didFoundUpdatePeerList:(NSArray *)foundPeers
 {
 	[self.roomTableView reloadData];
+}
+
+- (void)viewModel:(DDDVideoRoomViewModel *)viewModel didConnectToPeer:(MCPeerID *)peerID
+{
+	[self performSegueWithIdentifier:DDDVideoReceptionPushSegueIdentifier sender:nil];
 }
 
 @end

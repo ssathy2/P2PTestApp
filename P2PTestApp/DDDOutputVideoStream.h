@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DDDDataWrappers.h"
 
 @class DDDOutputVideoStream;
 
@@ -15,9 +16,12 @@
 @end
 
 @interface DDDOutputVideoStream : NSObject<NSCopying>
-@property (strong, nonatomic, readonly) NSUUID *streamIdentifier;
+// Convienence Property
 @property (strong, nonatomic, readonly) NSOutputStream *stream;
+@property (strong, nonatomic, readonly) NSUUID *streamIdentifier;
 @property (weak, nonatomic)	id<DDDOutputVideoStreamDataSource> datasource;
+
++ (instancetype)outputVideoStreamWithOutputStreamWrapper:(DDDRemoteOutputStreamWrapper *)wrapper;
 - (void)startStream;
 - (void)stopStream;
 @end

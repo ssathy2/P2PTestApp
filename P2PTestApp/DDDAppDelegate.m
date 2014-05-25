@@ -14,8 +14,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-	
-	[[DDDPeerKitContainer sharedInstance] updateDisplayName:@"TEST PEER ID"];
+	NSString *displayName = (IS_DEVICE) ? @"DEVICE" : @"SIMULATOR";
+	[[DDDPeerKitContainer sharedInstance] updateDisplayName:displayName];
     return YES;
 }
 							

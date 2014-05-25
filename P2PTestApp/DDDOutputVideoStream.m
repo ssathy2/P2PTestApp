@@ -10,9 +10,8 @@
 
 @interface DDDOutputVideoStream()<NSStreamDelegate>
 @property (assign, nonatomic) NSInteger overallBytesWritten;
-@property (strong, nonatomic) NSOutputStream *stream;
-@property (strong, nonatomic) NSOperationQueue *streamWriteQueue;
 @property (strong, nonatomic) NSUUID *streamIdentifier;
+@property (strong, nonatomic) DDDRemoteOutputStreamWrapper *streamWrapper;
 @end
 
 @implementation DDDOutputVideoStream
@@ -23,9 +22,6 @@
 	if(self)
 	{
 		self.overallBytesWritten = 0;
-		self.stream = [NSOutputStream outputStreamToMemory];
-		self.streamWriteQueue = [NSOperationQueue new];
-		self.streamWriteQueue.maxConcurrentOperationCount = 1;
 		self.streamIdentifier = [NSUUID UUID];
 	}
 	return self;
@@ -35,10 +31,21 @@
 {
     DDDOutputVideoStream *copy = [super copy];
 	copy.overallBytesWritten = self.overallBytesWritten;
-	copy.stream = self.stream;
-	copy.streamWriteQueue = self.streamWriteQueue;
 	copy.streamIdentifier = self.streamIdentifier;
+	copy.streamWrapper = self.streamWrapper;
     return copy;
+}
+
++ (instancetype)outputVideoStreamWithOutputStreamWrapper:(DDDRemoteOutputStreamWrapper *)wrapper
+{
+	DDDOutputVideoStream *stream = [DDDOutputVideoStream new];
+	stream.streamWrapper = wrapper;
+	return stream;
+}
+
+- (NSOutputStream *)stream
+{
+	return self.streamWrapper.outputStream;
 }
 
 - (void)startStream
@@ -56,7 +63,6 @@
 	if (self.stream.streamStatus == NSStreamStatusOpen)
 	{
 		[self.stream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-	
 		[self.stream close];
 	}
 }
