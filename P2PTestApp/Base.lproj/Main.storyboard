@@ -159,7 +159,7 @@
                         <viewControllerLayoutGuide type="bottom" id="NRG-Wr-YOw"/>
                     </layoutGuides>
                     <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="GTM-XD-NhB">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iJP-0h-TNJ">
@@ -198,7 +198,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ezN-bM-6Ns">
-                                <rect key="frame" x="0.0" y="78" width="320" height="418"/>
+                                <rect key="frame" x="0.0" y="78" width="320" height="369"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
@@ -249,19 +249,20 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="ezN-bM-6Ns" firstAttribute="leading" secondItem="VI9-pg-vwJ" secondAttribute="leading" id="ETM-CV-Rlm"/>
-                            <constraint firstItem="iJP-0h-TNJ" firstAttribute="trailing" secondItem="ezN-bM-6Ns" secondAttribute="trailing" id="EkD-4S-P0j"/>
+                            <constraint firstItem="ezN-bM-6Ns" firstAttribute="trailing" secondItem="iJP-0h-TNJ" secondAttribute="trailing" id="9y7-Pi-2aL"/>
                             <constraint firstAttribute="trailing" secondItem="VI9-pg-vwJ" secondAttribute="trailing" id="FEx-18-eOd"/>
-                            <constraint firstItem="ezN-bM-6Ns" firstAttribute="top" secondItem="iJP-0h-TNJ" secondAttribute="bottom" constant="8" symbolic="YES" id="JJ6-mn-FrK"/>
-                            <constraint firstItem="iJP-0h-TNJ" firstAttribute="leading" secondItem="ezN-bM-6Ns" secondAttribute="leading" id="NUi-7p-gwq"/>
+                            <constraint firstItem="ezN-bM-6Ns" firstAttribute="top" secondItem="iJP-0h-TNJ" secondAttribute="bottom" constant="8" symbolic="YES" id="Q1V-XW-830"/>
+                            <constraint firstItem="ezN-bM-6Ns" firstAttribute="leading" secondItem="VI9-pg-vwJ" secondAttribute="leading" id="QwW-XT-go5"/>
+                            <constraint firstItem="ezN-bM-6Ns" firstAttribute="leading" secondItem="iJP-0h-TNJ" secondAttribute="leading" id="WSl-B2-IaI"/>
                             <constraint firstItem="NRG-Wr-YOw" firstAttribute="top" secondItem="VI9-pg-vwJ" secondAttribute="bottom" constant="2" id="aFh-Mv-Dga"/>
-                            <constraint firstItem="NRG-Wr-YOw" firstAttribute="top" secondItem="ezN-bM-6Ns" secondAttribute="bottom" constant="23" id="ds2-cS-PLI"/>
-                            <constraint firstItem="ezN-bM-6Ns" firstAttribute="top" secondItem="GTM-XD-NhB" secondAttribute="top" constant="78" id="fdi-8L-1Pi"/>
                             <constraint firstItem="iJP-0h-TNJ" firstAttribute="top" secondItem="GTM-XD-NhB" secondAttribute="top" constant="20" symbolic="YES" id="gnh-PE-qP2"/>
-                            <constraint firstItem="ezN-bM-6Ns" firstAttribute="trailing" secondItem="VI9-pg-vwJ" secondAttribute="trailing" id="pGN-nl-HhG"/>
+                            <constraint firstItem="ezN-bM-6Ns" firstAttribute="trailing" secondItem="VI9-pg-vwJ" secondAttribute="trailing" id="jUv-rb-Et7"/>
                             <constraint firstItem="VI9-pg-vwJ" firstAttribute="leading" secondItem="GTM-XD-NhB" secondAttribute="leading" id="wib-3m-EmZ"/>
+                            <constraint firstItem="VI9-pg-vwJ" firstAttribute="top" secondItem="ezN-bM-6Ns" secondAttribute="bottom" id="yH9-Nx-Sbb"/>
+                            <constraint firstItem="ezN-bM-6Ns" firstAttribute="top" secondItem="GTM-XD-NhB" secondAttribute="top" constant="78" id="zsz-qF-lGs"/>
                         </constraints>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <tabBarItem key="tabBarItem" title="Broadcast" id="y7t-o1-UDJ"/>
                     <toolbarItems/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>

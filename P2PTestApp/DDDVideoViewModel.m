@@ -42,8 +42,8 @@
 - (void)startVideo
 {
 	//TESTING
+	[self.captureManager startVideo];	
 	[self.outputStreamingController startStreamingToPeers];
-	[self.captureManager startVideo];
 }
 
 - (void)stopVideo

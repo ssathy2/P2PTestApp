@@ -46,6 +46,11 @@
 	[self resetCaptureInput];
 	NSError *error = nil;
 	self.captureDevice = [self captureDeviceWithCameraPosition:self.currentCameraShown];
+	NSError *lockError;
+	[self.captureDevice lockForConfiguration:&lockError];
+	//NSArray *arr = self.captureDevice.activeFormat.videoSupportedFrameRateRanges;
+	self.captureDevice.activeVideoMinFrameDuration = CMTimeMake(1, 15);
+	[self.captureDevice unlockForConfiguration];
     self.captureInput = [AVCaptureDeviceInput deviceInputWithDevice:self.captureDevice
 															  error:&error];
 	if (!error)

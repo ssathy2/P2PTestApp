@@ -12,6 +12,9 @@
 @property (assign, nonatomic) NSInteger overallBytesWritten;
 @property (strong, nonatomic) NSUUID *streamIdentifier;
 @property (strong, nonatomic) DDDRemoteOutputStreamWrapper *streamWrapper;
+
+@property (strong, nonatomic) NSLock *streamDataBufferLock;
+@property (strong, nonatomic) NSMutableData *streamDataBuffer;
 @end
 
 @implementation DDDOutputVideoStream
@@ -23,6 +26,8 @@
 	{
 		self.overallBytesWritten = 0;
 		self.streamIdentifier = [NSUUID UUID];
+		self.streamDataBuffer = [NSMutableData new];
+		self.streamDataBufferLock = [NSLock new];
 	}
 	return self;
 }
@@ -33,6 +38,8 @@
 	copy.overallBytesWritten = self.overallBytesWritten;
 	copy.streamIdentifier = self.streamIdentifier;
 	copy.streamWrapper = self.streamWrapper;
+	copy.streamDataBuffer = self.streamDataBuffer;
+	copy.streamDataBufferLock = self.streamDataBufferLock;
     return copy;
 }
 
@@ -46,6 +53,11 @@
 - (NSOutputStream *)stream
 {
 	return self.streamWrapper.outputStream;
+}
+
+- (NSStreamStatus)streamStatus
+{
+	return self.stream.streamStatus;
 }
 
 - (void)startStream
@@ -98,14 +110,7 @@
 - (void)handleStreamHasSpace
 {
 	NSLog(@"Stream Has Space: %@", self.stream);
-	if(self.datasource)
-	{
-		NSData *data = [self.datasource dataToWriteToStreamID:self.streamIdentifier];
-		if(data)
-		{	
-			[self.stream write:data.bytes maxLength:data.length];
-		}
-	}
+	//[self writeDataTostream:nil];
 }
 
 - (void)handleStreamError
@@ -116,6 +121,36 @@
 - (void)handleStreamEnd
 {
 	NSLog(@"Stream END: %@", self.stream);
+}
+
+- (NSInteger)writeDataTostream:(NSData *)data
+{
+	NSInteger bytesWritten = 0;
+	[self.streamDataBufferLock lock];
+	if (!data)
+	{
+		bytesWritten = [self flushBufferToStream];
+	}
+	else
+	{
+		[self.streamDataBuffer appendData:data];
+		if(self.stream.	streamStatus == NSStreamStatusOpen && [self.stream hasSpaceAvailable])
+			bytesWritten = [self flushBufferToStream];
+		[self.streamDataBufferLock unlock];
+	}
+	return bytesWritten;
+}
+
+// Non thread-safe call to flush out the existing buffer to the output stream
+- (NSInteger)flushBufferToStream
+{
+	if(self.streamDataBuffer.length == 0)
+		return 0;
+	NSInteger bytesWritten = self.streamDataBuffer.length;
+	self.overallBytesWritten += bytesWritten;
+	[self.stream write:self.streamDataBuffer.bytes maxLength:self.streamDataBuffer.length];
+	[self.streamDataBuffer setLength:0];
+	return bytesWritten;
 }
 
 @end

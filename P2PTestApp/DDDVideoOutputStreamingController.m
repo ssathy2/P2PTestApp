@@ -12,19 +12,15 @@
 
 #define DDDBufferDelegateQueue "DDDBufferDelegateQueue"
 
-@interface DDDVideoOutputStreamingController()<AVCaptureVideoDataOutputSampleBufferDelegate, DDDOutputVideoStreamDataSource, DDDPeerKitConnectionListener>
+@interface DDDVideoOutputStreamingController()<AVCaptureVideoDataOutputSampleBufferDelegate, DDDPeerKitConnectionListener>
 // AV Capture Related
 @property (strong, nonatomic) AVCaptureSession *captureSession;
 @property (strong, nonatomic) AVCaptureVideoDataOutput *captureOutput;
-@property (strong, nonatomic) dispatch_queue_t queue;
+@property (strong, nonatomic) dispatch_queue_t captureDelegateQueue;
 
 // Peer to Stream Mapping
 @property (strong, nonatomic) NSHashTable *streams;
 @property (strong, nonatomic) NSLock *streamsLock;
-
-// Stream to Data Mapping
-@property (strong, nonatomic) NSMutableDictionary *streamToDataMapping;
-@property (strong, nonatomic) NSLock *streamToDataLock;
 
 // Buffer Conversion
 @property (strong, nonatomic) DDDBufferConverter *bufferConverter;
@@ -36,11 +32,9 @@
 	self = [super init];
 	if(self)
 	{
-		self.queue = dispatch_queue_create(DDDBufferDelegateQueue, NULL);
+		self.captureDelegateQueue = dispatch_queue_create(DDDBufferDelegateQueue, NULL);
 		self.streams = [NSHashTable hashTableWithOptions:NSPointerFunctionsStrongMemory];
-		self.streamToDataMapping = [NSMutableDictionary dictionary];
 		self.streamsLock = [NSLock new];
-		self.streamToDataLock = [NSLock new];
 		self.bufferConverter = [DDDBufferConverter new];
 		[[DDDPeerKitContainer sharedInstance] registerListener:self];
 	}
@@ -66,7 +60,7 @@
 	if([self.captureSession canAddOutput:self.captureOutput])
 	{
 		[self.captureSession addOutput:self.captureOutput];
-		[self.captureOutput setSampleBufferDelegate:self queue:self.queue];
+		[self.captureOutput setSampleBufferDelegate:self queue:self.captureDelegateQueue];
 	}
 }
 
@@ -77,7 +71,12 @@
 
 - (void)stopStreamingToPeers
 {
-	
+	[self.streamsLock lock];
+	for(DDDOutputVideoStream *stream in self.streams)
+	{
+		[stream stopStream];
+	}
+	[self.streamsLock unlock];
 }
 
 #pragma mark - DDDPeerKitConnectionListener
@@ -85,9 +84,8 @@
 {
 	[self.streamsLock lock];
 	DDDOutputVideoStream *videoStream = [DDDOutputVideoStream outputVideoStreamWithOutputStreamWrapper:stream];
-	videoStream.datasource = self;
-	[self.streams addObject:videoStream];
 	[videoStream startStream];
+	[self.streams addObject:videoStream];
 	[self.streamsLock unlock];
 }
 
@@ -105,34 +103,10 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 	   fromConnection:(AVCaptureConnection *)connection
 {
 	// Add the sample buffer to the data. Since we've got a serial queue, the frames can be added in order at which they're recieved
-	//	[self.streamWriteQueue addOperationWithBlock:^{
-	//		[self writeBufferToStream:sampleBuffer];
-	//	}];
 	[self.streamsLock lock];
 	for (DDDOutputVideoStream *stream in self.streams)
-	{
-		[self.streamToDataLock lock];
-		NSMutableData *data = [self.streamToDataMapping objectForKey:stream.streamIdentifier];
-		if (!data)
-			data = [NSMutableData new];
-		[data appendData:[self.bufferConverter dataFromSampleBuffer:sampleBuffer]];
-		[self.streamToDataMapping setObject:data forKey:stream.streamIdentifier];
-		[self.streamToDataLock unlock];
-	}
+		 [stream writeDataTostream:[self.bufferConverter dataFromSampleBuffer:sampleBuffer]];
 	[self.streamsLock unlock];
-}
 
-- (NSData *)dataToWriteToStreamID:(NSUUID *)streamID
-{
-	NSMutableData *dataToWrite = nil;
-	[self.streamToDataLock lock];
-	dataToWrite = [[self.streamToDataMapping objectForKey:streamID] copy];
-	NSMutableData *ref = [self.streamToDataMapping objectForKey:streamID];
-	[ref setLength:0];
-	if (ref)
-		[self.streamToDataMapping setObject:ref forKey:streamID];
-	
-	[self.streamToDataLock unlock];
-	return dataToWrite;
 }
 @end

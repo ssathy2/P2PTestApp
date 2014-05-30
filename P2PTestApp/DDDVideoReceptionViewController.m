@@ -70,12 +70,9 @@
 	// A 10 mb buffer
 	NSUInteger maxLen = 1024*10;
 	uint8_t *buffer = (uint8_t*)malloc(maxLen);
-	while(self.stream.hasBytesAvailable)
-	{
-		NSInteger bytesRead = [self.stream read:buffer maxLength:maxLen];
-		NSLog(@"Read %li bytes", (long)bytesRead);
-		memset(buffer,0,(size_t)maxLen);
-	}
+	NSInteger bytesRead = [self.stream read:buffer maxLength:maxLen];
+	NSLog(@"Read %li bytes", (long)bytesRead);
+	free(buffer);
 }
 
 - (void)handleStreamEnd

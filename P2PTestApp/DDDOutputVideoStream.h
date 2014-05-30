@@ -11,17 +11,15 @@
 
 @class DDDOutputVideoStream;
 
-@protocol DDDOutputVideoStreamDataSource <NSObject>
-- (NSData *)dataToWriteToStreamID:(NSUUID *)streamID;
-@end
-
 @interface DDDOutputVideoStream : NSObject<NSCopying>
-// Convienence Property
-@property (strong, nonatomic, readonly) NSOutputStream *stream;
 @property (strong, nonatomic, readonly) NSUUID *streamIdentifier;
-@property (weak, nonatomic)	id<DDDOutputVideoStreamDataSource> datasource;
+
+// Convienence Properties
+@property (strong, nonatomic, readonly) NSOutputStream *stream;
+@property (assign, nonatomic, readonly) NSStreamStatus streamStatus;
 
 + (instancetype)outputVideoStreamWithOutputStreamWrapper:(DDDRemoteOutputStreamWrapper *)wrapper;
+- (NSInteger)writeDataTostream:(NSData *)data;
 - (void)startStream;
 - (void)stopStream;
 @end
