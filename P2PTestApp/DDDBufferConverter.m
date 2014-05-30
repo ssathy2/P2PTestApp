@@ -13,6 +13,8 @@
 @end
 
 @implementation DDDBufferConverter
+// The size ((in bytes)) of the buffer is indicated in the first sizeof(NSInteger) bits of the stream
+// The client should read the first sizeof(NSInteger) bits of the data to figure out how many bytes to read from the stream to constitute a full buffer
 - (NSData *)dataFromSampleBuffer:(CMSampleBufferRef)buffer
 {
 	size_t bytesPerRow;
@@ -35,7 +37,10 @@
 {
 	CVPixelBufferLockBaseAddress(imageBuffer, 0);
 	void *rawBuffer = CVPixelBufferGetBaseAddress(imageBuffer);
-	NSData *data = [NSData dataWithBytes:rawBuffer length:bytesPerRow*height];
+	NSMutableData *data = [NSMutableData new];
+	NSInteger dataLength = bytesPerRow*height;
+	[data appendBytes:&dataLength length:sizeof(dataLength)];
+	[data appendBytes:rawBuffer length:dataLength];
 	CVPixelBufferUnlockBaseAddress(imageBuffer, 0);
 	return data;
 }

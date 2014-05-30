@@ -7,9 +7,11 @@
 //
 
 #import "DDDViewModel.h"
+#import "DDDInputStreamController.h"
 
 @interface DDDVideoReceptionViewModel : DDDViewModel
-@property (strong, nonatomic) NSInputStream *inputStream;
+@property (strong, nonatomic, readonly) NSInputStream *inputStream;
+@property (strong, nonatomic, readonly) DDDInputStreamController *inputStreamingController;
 @end
 
 @protocol DDDVideoReceptionViewModelListener <DDDViewModelListener> @optional

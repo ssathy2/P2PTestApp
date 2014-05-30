@@ -9,7 +9,24 @@
 #import "DDDVideoReceptionViewModel.h"
 #import "DDDPeerKitContainer.h"
 
+@interface DDDVideoReceptionViewModel()<DDDInputStreamControllerDelegate>
+@property (strong, nonatomic) NSInputStream *inputStream;
+@property (strong, nonatomic) DDDInputStreamController *inputStreamController;
+@end
+
 @implementation DDDVideoReceptionViewModel
+
+- (id)init
+{
+	self = [super init];
+	if (self)
+	{
+		self.inputStreamController = [DDDInputStreamController new];
+		self.inputStreamController.delegate = self;
+	}
+	return self;
+}
+
 - (void)didRegisterListener:(id<DDDViewModelListener>)listener
 {
 	[super didRegisterListener:listener];
@@ -25,7 +42,18 @@
 - (void)peerKitContainer:(DDDPeerKitContainer *)peerkitConainer didRecieveStream:(DDDRemoteInputStreamWrapper *)stream
 {
 	self.inputStream = stream.inputStream;
+	[self.inputStreamController startStreamingWithStream:self.inputStream];	
 	[self callDelegateListenersWithSelector:@selector(viewModel:didUpdateInputStream:) withObject:self.inputStream];
 }
 
+#pragma mark - DDDInputStreamControllerDelegate
+- (void)streamController:(DDDInputStreamController *)streamController streamStatusUpdated:(NSStreamStatus)status
+{
+	
+}
+
+- (void)streamController:(DDDInputStreamController *)streamController startedWritingToAssetWriter:(AVAssetWriterInput *)inputAssetWriter
+{
+	
+}
 @end
