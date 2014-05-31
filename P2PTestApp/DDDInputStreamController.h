@@ -11,7 +11,8 @@
 @protocol DDDInputStreamControllerDelegate;
 
 @interface DDDInputStreamController : NSObject
-@property (strong, nonatomic, readonly) AVAssetWriterInput *inputAssetWriter;
+@property (strong, nonatomic, readonly) AVAssetWriter *assetWriter;
+@property (strong, nonatomic, readonly) AVPlayerItem *streamPlayerItem;
 @property (weak, nonatomic) id<DDDInputStreamControllerDelegate> delegate;
 - (void)startStreamingWithStream:(NSInputStream *)stream;
 @end

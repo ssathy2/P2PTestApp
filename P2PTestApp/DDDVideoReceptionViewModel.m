@@ -9,7 +9,7 @@
 #import "DDDVideoReceptionViewModel.h"
 #import "DDDPeerKitContainer.h"
 
-@interface DDDVideoReceptionViewModel()<DDDInputStreamControllerDelegate>
+@interface DDDVideoReceptionViewModel()<DDDInputStreamControllerDelegate, DDDPeerKitDataReceptionListener>
 @property (strong, nonatomic) NSInputStream *inputStream;
 @property (strong, nonatomic) DDDInputStreamController *inputStreamController;
 @end
@@ -23,6 +23,7 @@
 	{
 		self.inputStreamController = [DDDInputStreamController new];
 		self.inputStreamController.delegate = self;
+		[[DDDPeerKitContainer sharedInstance] registerListener:self];
 	}
 	return self;
 }

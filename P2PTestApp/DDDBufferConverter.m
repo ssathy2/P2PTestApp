@@ -30,6 +30,7 @@
 									   self.bufferPool,
 									   &imageBuffer);
 	bytesPerRow = CVPixelBufferGetBytesPerRow(imageBuffer);
+	imageSize = CVImageBufferGetDisplaySize(imageBuffer);
 	return [self dataFromImageBuffer:imageBuffer withBytesPerRow:bytesPerRow withHeight:imageSize.height];
 }
 

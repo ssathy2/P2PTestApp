@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		DE0DC63418FB3322006A47D9 /* NSMutableArray+Modification.m in Sources */ = {isa = PBXBuildFile; fileRef = DE0DC63318FB3322006A47D9 /* NSMutableArray+Modification.m */; };
 		DE24FBC91938332100A2E106 /* DDDInputStreamController.m in Sources */ = {isa = PBXBuildFile; fileRef = DE24FBC81938332100A2E106 /* DDDInputStreamController.m */; };
+		DE24FBD3193A318700A2E106 /* DDDStreamFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DE24FBD2193A318700A2E106 /* DDDStreamFileManager.m */; };
 		DE2841AF19328AB4009AAFBE /* DDDBufferConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = DE2841AE19328AB4009AAFBE /* DDDBufferConverter.m */; };
 		DE5D1BEE1930229E000CE381 /* DDDDataWrappers.m in Sources */ = {isa = PBXBuildFile; fileRef = DE5D1BED1930229E000CE381 /* DDDDataWrappers.m */; };
 		DE788156192C54CF005A50A1 /* DDDVideoOutputStreamingController.m in Sources */ = {isa = PBXBuildFile; fileRef = DE788155192C54CF005A50A1 /* DDDVideoOutputStreamingController.m */; };
@@ -19,6 +20,7 @@
 		DE9686041931091E007E98AD /* DDDVideoReceptionViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DE9686031931091E007E98AD /* DDDVideoReceptionViewModel.m */; };
 		DE96860719310B47007E98AD /* DDDVideoStreamPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = DE96860619310B47007E98AD /* DDDVideoStreamPlayerView.m */; };
 		DEA9D21E18F227EE00BD5002 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEA9D21D18F227EE00BD5002 /* AVFoundation.framework */; };
+		DEA9E7BC193A414800D8E35D /* UIView+SSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DEA9E7BB193A414800D8E35D /* UIView+SSAdditions.m */; };
 		DECC65C219203F300076D3AB /* DDDViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DECC65C119203F300076D3AB /* DDDViewModel.m */; };
 		DECC65C619203F8B0076D3AB /* DDDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DECC65C519203F8B0076D3AB /* DDDViewController.m */; };
 		DECC65D31920495F0076D3AB /* DDDVideoViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DECC65D21920495F0076D3AB /* DDDVideoViewModel.m */; };
@@ -58,6 +60,8 @@
 		DE0DC63318FB3322006A47D9 /* NSMutableArray+Modification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+Modification.m"; sourceTree = "<group>"; };
 		DE24FBC71938332100A2E106 /* DDDInputStreamController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDDInputStreamController.h; sourceTree = "<group>"; };
 		DE24FBC81938332100A2E106 /* DDDInputStreamController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDDInputStreamController.m; sourceTree = "<group>"; };
+		DE24FBD1193A318700A2E106 /* DDDStreamFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDDStreamFileManager.h; sourceTree = "<group>"; };
+		DE24FBD2193A318700A2E106 /* DDDStreamFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDDStreamFileManager.m; sourceTree = "<group>"; };
 		DE2841AD19328AB4009AAFBE /* DDDBufferConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDDBufferConverter.h; sourceTree = "<group>"; };
 		DE2841AE19328AB4009AAFBE /* DDDBufferConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDDBufferConverter.m; sourceTree = "<group>"; };
 		DE5D1BEC1930229E000CE381 /* DDDDataWrappers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDDDataWrappers.h; sourceTree = "<group>"; };
@@ -77,6 +81,8 @@
 		DE96860519310B47007E98AD /* DDDVideoStreamPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDDVideoStreamPlayerView.h; sourceTree = "<group>"; };
 		DE96860619310B47007E98AD /* DDDVideoStreamPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDDVideoStreamPlayerView.m; sourceTree = "<group>"; };
 		DEA9D21D18F227EE00BD5002 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		DEA9E7BA193A414800D8E35D /* UIView+SSAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SSAdditions.h"; sourceTree = "<group>"; };
+		DEA9E7BB193A414800D8E35D /* UIView+SSAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SSAdditions.m"; sourceTree = "<group>"; };
 		DECC65C019203F300076D3AB /* DDDViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDDViewModel.h; sourceTree = "<group>"; };
 		DECC65C119203F300076D3AB /* DDDViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDDViewModel.m; sourceTree = "<group>"; };
 		DECC65C419203F8B0076D3AB /* DDDViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDDViewController.h; sourceTree = "<group>"; };
@@ -146,6 +152,8 @@
 		DE0DC63118FB3308006A47D9 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				DEA9E7BA193A414800D8E35D /* UIView+SSAdditions.h */,
+				DEA9E7BB193A414800D8E35D /* UIView+SSAdditions.m */,
 				DECC65CE1920466E0076D3AB /* DDDCategories.h */,
 				DE0DC63218FB3322006A47D9 /* NSMutableArray+Modification.h */,
 				DE0DC63318FB3322006A47D9 /* NSMutableArray+Modification.m */,
@@ -233,6 +241,8 @@
 				DE788158192C58ED005A50A1 /* DDDOutputVideoStream.m */,
 				DE2841AD19328AB4009AAFBE /* DDDBufferConverter.h */,
 				DE2841AE19328AB4009AAFBE /* DDDBufferConverter.m */,
+				DE24FBD1193A318700A2E106 /* DDDStreamFileManager.h */,
+				DE24FBD2193A318700A2E106 /* DDDStreamFileManager.m */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -439,8 +449,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				DE788156192C54CF005A50A1 /* DDDVideoOutputStreamingController.m in Sources */,
+				DE24FBD3193A318700A2E106 /* DDDStreamFileManager.m in Sources */,
 				DECC65D31920495F0076D3AB /* DDDVideoViewModel.m in Sources */,
 				DEDAD81818EA5D400020644C /* main.m in Sources */,
+				DEA9E7BC193A414800D8E35D /* UIView+SSAdditions.m in Sources */,
 				DECC65C619203F8B0076D3AB /* DDDViewController.m in Sources */,
 				DE5D1BEE1930229E000CE381 /* DDDDataWrappers.m in Sources */,
 				DE2841AF19328AB4009AAFBE /* DDDBufferConverter.m in Sources */,

@@ -44,6 +44,8 @@ typedef NS_ENUM(NSInteger, DDDTabBarContainerIndex)
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 	self.tabbarController.delegate = self;
+	[self.tabbarController.tabBar setBarStyle:UIBarStyleBlack];
+	[self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
 }
 
 #pragma mark - UITabBarControllerDelegate

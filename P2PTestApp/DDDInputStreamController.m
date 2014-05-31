@@ -7,12 +7,16 @@
 //
 
 #import "DDDInputStreamController.h"
+#import "DDDStreamFileManager.h"
 
 @interface DDDInputStreamController()<NSStreamDelegate>
-@property (strong, nonatomic) NSMutableData *inputBuffer;
-@property (strong, nonatomic) AVAssetWriterInput *inputAssetWriter;
-@property (strong, nonatomic) AVAssetWriterInputPixelBufferAdaptor *pixelBufferAdaptor;
+@property (strong, nonatomic) AVAssetWriter *assetWriter;
+@property (strong, nonatomic) AVURLAsset *urlAsset;
+@property (strong, nonatomic) AVAssetWriterInput *assetWriterInput;
+@property (strong, nonatomic) AVPlayerItem *streamPlayerItem;
+
 @property (strong, nonatomic) NSInputStream *stream;
+@property (strong, nonatomic) NSMutableData *inputBuffer;
 @end
 
 @implementation DDDInputStreamController
@@ -22,6 +26,7 @@
 	if (self)
 	{
 		self.inputBuffer = [NSMutableData new];
+		[self initAssetWritingFlow];
 	}
 	return self;
 }
@@ -29,19 +34,42 @@
 - (void)startStreamingWithStream:(NSInputStream *)stream
 {
 	self.stream = stream;
+	[self setupAssetWriterInput];
 	[self startStream];
+}
+
+- (void)setupAssetWriterInput
+{
+	self.assetWriterInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeVideo outputSettings:nil];
+	if ([self.assetWriter canAddInput:self.assetWriterInput])
+		[self.assetWriter addInput:self.assetWriterInput];
+}
+
+// Helpers
+- (void)initAssetWritingFlow
+{
+	NSURL *streamFile = [[DDDStreamFileManager sharedInstance] startStreamToFile];
+	NSError *error;
+	self.assetWriter = [AVAssetWriter assetWriterWithURL:streamFile fileType:AVFileTypeMPEG4 error:&error];
+	[self.assetWriter setShouldOptimizeForNetworkUse:YES];
+	if (error)
+		NSLog(@"ERROR in setting up asset writer: %@", error);
+	self.urlAsset = [AVURLAsset URLAssetWithURL:streamFile options:nil];
+	self.streamPlayerItem = [AVPlayerItem playerItemWithAsset:self.urlAsset];
 }
 
 - (void)startStream
 {
 	[self.stream scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+	self.stream.delegate = self;
 	[self.stream open];
 }
 
 #pragma mark - NSStreamDelegate methods
 - (void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode
 {
-	switch (eventCode) {
+	switch (eventCode)
+	{
 		case NSStreamEventOpenCompleted:
 			[self handleStreamOpen];
 			break;
@@ -79,15 +107,27 @@
 	actualBytesRead = [self.stream read:(uint8_t *)&buffer maxLength:bufferLength];
 	if (actualBytesRead == 0)
 		return;
+	[self writeBufferToAssetWriter:&buffer];
 	[self.inputBuffer appendBytes:&buffer length:bufferLength];
-	[self appendDataAsBuffer:&buffer];
 	memset(&buffer, 0, bufferLength);
 }
 
-- (void)appendDataAsBuffer:(void *)buffer
+- (void)writeBufferToAssetWriter:(void *)buffer
 {
-	CVPixelBufferRef buffer = (CVPixelBufferRef)buffer;
+	CMSampleBufferRef sampleBuffer = (CMSampleBufferRef)buffer;
+	// There's only one frame in this sample buffer
+	if (self.inputBuffer.length == 0)
+		// WE haven't read any bytes into the buffer so setup the av player here...
+		[self setupAssetWriterWithSampleBuffer:sampleBuffer];
 	
+	if (self.assetWriterInput.isReadyForMoreMediaData)
+		[self.assetWriterInput appendSampleBuffer:sampleBuffer];
+}
+
+- (void)setupAssetWriterWithSampleBuffer:(CMSampleBufferRef)sampleBuffer
+{
+	[self.assetWriter startWriting];
+	[self.assetWriter startSessionAtSourceTime:CMSampleBufferGetPresentationTimeStamp(sampleBuffer)];
 }
 
 - (void)handleStreamErrorOccurred
@@ -102,5 +142,16 @@
 	[self.stream removeFromRunLoop:[NSRunLoop currentRunLoop]
 					  forMode:NSDefaultRunLoopMode];
 	self.stream = nil;
+	
+	[self disposeAssetWriter];
+}
+
+- (void)disposeAssetWriter
+{
+	__weak DDDInputStreamController *weakSelf = self;
+	[weakSelf.assetWriter finishWritingWithCompletionHandler:^{
+		weakSelf.assetWriterInput = nil;
+		[[DDDStreamFileManager sharedInstance] stopStreamToFile];
+	}];
 }
 @end

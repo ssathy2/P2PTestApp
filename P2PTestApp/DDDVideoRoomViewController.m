@@ -40,6 +40,12 @@
 {
 	MCPeerID *selectedPeerID = self.passthroughViewModel.foundPeers[indexPath.row];
 	[self.passthroughViewModel connectToPeer:selectedPeerID];
+	[self.view showLoadingOverlay];
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+	return [UIView new];
 }
 
 #pragma mark - UITableViewDataSource
@@ -64,6 +70,7 @@
 
 - (void)viewModel:(DDDVideoRoomViewModel *)viewModel didConnectToPeer:(MCPeerID *)peerID
 {
+	[self.view hideLoadingOverlay];
 	[self performSegueWithIdentifier:DDDVideoReceptionPushSegueIdentifier sender:nil];
 }
 
