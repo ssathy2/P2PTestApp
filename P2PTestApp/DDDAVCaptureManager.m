@@ -49,7 +49,7 @@
 	NSError *lockError;
 	[self.captureDevice lockForConfiguration:&lockError];
 	//NSArray *arr = self.captureDevice.activeFormat.videoSupportedFrameRateRanges;
-	self.captureDevice.activeVideoMinFrameDuration = CMTimeMake(1, 15);
+	self.captureDevice.activeVideoMinFrameDuration = CMTimeMake(1, 2);
 	[self.captureDevice unlockForConfiguration];
     self.captureInput = [AVCaptureDeviceInput deviceInputWithDevice:self.captureDevice
 															  error:&error];

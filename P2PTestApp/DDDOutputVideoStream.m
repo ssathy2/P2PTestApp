@@ -13,9 +13,11 @@
 @property (strong, nonatomic) NSUUID *streamIdentifier;
 @property (strong, nonatomic) DDDRemoteOutputStreamWrapper *streamWrapper;
 
-@property (strong, nonatomic) NSLock *streamDataBufferLock;
+@property (strong, nonatomic) NSOperationQueue *streamOperationQueue;
+
 @property (strong, nonatomic) NSMutableData *streamDataBuffer;
 @end
+
 
 @implementation DDDOutputVideoStream
 
@@ -27,7 +29,8 @@
 		self.overallBytesWritten = 0;
 		self.streamIdentifier = [NSUUID UUID];
 		self.streamDataBuffer = [NSMutableData new];
-		self.streamDataBufferLock = [NSLock new];
+		self.streamOperationQueue = [NSOperationQueue new];
+//		self.streamOperationQueue.maxConcurrentOperationCount = 1;
 	}
 	return self;
 }
@@ -39,7 +42,6 @@
 	copy.streamIdentifier = self.streamIdentifier;
 	copy.streamWrapper = self.streamWrapper;
 	copy.streamDataBuffer = self.streamDataBuffer;
-	copy.streamDataBufferLock = self.streamDataBufferLock;
     return copy;
 }
 
@@ -64,7 +66,7 @@
 {
 	if (self.stream.streamStatus == NSStreamStatusNotOpen)
 	{
-		[self.stream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+		[self.stream scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
 		self.stream.delegate = self;
 		[self.stream open];
 	}
@@ -74,7 +76,7 @@
 {
 	if (self.stream.streamStatus == NSStreamStatusOpen)
 	{
-		[self.stream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+		[self.stream removeFromRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
 		[self.stream close];
 	}
 }
@@ -110,7 +112,10 @@
 - (void)handleStreamHasSpace
 {
 	NSLog(@"Stream Has Space: %@", self.stream);
-	//[self writeDataTostream:nil];
+	__weak DDDOutputVideoStream *weakSelf = self;
+	[self.streamOperationQueue addOperationWithBlock:^{
+		[weakSelf flushBufferToStream];
+	}];
 }
 
 - (void)handleStreamError
@@ -123,22 +128,13 @@
 	NSLog(@"Stream END: %@", self.stream);
 }
 
-- (NSInteger)writeDataTostream:(NSData *)data
+- (void)writeDataTostream:(NSData *)data
 {
-	NSInteger bytesWritten = 0;
-	[self.streamDataBufferLock lock];
-	if (!data)
-	{
-		bytesWritten = [self flushBufferToStream];
-	}
-	else
-	{
-		[self.streamDataBuffer appendData:data];
-		if(self.stream.	streamStatus == NSStreamStatusOpen && [self.stream hasSpaceAvailable])
-			bytesWritten = [self flushBufferToStream];
-		[self.streamDataBufferLock unlock];
-	}
-	return bytesWritten;
+	__weak DDDOutputVideoStream *weakSelf = self;
+	[self.streamOperationQueue addOperationWithBlock:^{
+		[weakSelf.streamDataBuffer appendData:data];
+		[weakSelf flushBufferToStream];
+	}];
 }
 
 // Non thread-safe call to flush out the existing buffer to the output stream
@@ -146,10 +142,14 @@
 {
 	if(self.streamDataBuffer.length == 0)
 		return 0;
-	NSInteger bytesWritten = self.streamDataBuffer.length;
-	self.overallBytesWritten += bytesWritten;
-	[self.stream write:self.streamDataBuffer.bytes maxLength:self.streamDataBuffer.length];
-	[self.streamDataBuffer setLength:0];
+	NSInteger bytesWritten = 0;
+	if (self.stream.hasSpaceAvailable)
+	{
+		self.overallBytesWritten += bytesWritten;
+		[self.stream write:self.streamDataBuffer.bytes maxLength:self.streamDataBuffer.length];
+		[self.streamDataBuffer setLength:0];
+		NSLog(@"Wrote %li bytes to stream", bytesWritten);
+	}
 	return bytesWritten;
 }
 

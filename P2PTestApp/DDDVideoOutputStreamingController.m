@@ -103,9 +103,14 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 	   fromConnection:(AVCaptureConnection *)connection
 {
 	// Add the sample buffer to the data. Since we've got a serial queue, the frames can be added in order at which they're recieved
-	[self.streamsLock lock];
+	[self.streamsLock lock]; 
 	for (DDDOutputVideoStream *stream in self.streams)
-		 [stream writeDataTostream:[self.bufferConverter dataFromSampleBuffer:sampleBuffer]];
+	{
+		NSData *data = [self.bufferConverter dataFromSampleBuffer:sampleBuffer];
+		[stream writeDataTostream:data];
+		NSLog(@"Data Length: %li", data.length);
+		
+	}
 	[self.streamsLock unlock];
 
 }

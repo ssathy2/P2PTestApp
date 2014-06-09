@@ -10,4 +10,6 @@
 
 @interface DDDBufferConverter : NSObject
 - (NSData *)dataFromSampleBuffer:(CMSampleBufferRef)buffer;
+// Appends the size of the data to the beginning of the data buffer
+- (NSData *)networkDataFromData:(NSData *)data;
 @end

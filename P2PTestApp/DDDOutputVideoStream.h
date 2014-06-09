@@ -19,7 +19,7 @@
 @property (assign, nonatomic, readonly) NSStreamStatus streamStatus;
 
 + (instancetype)outputVideoStreamWithOutputStreamWrapper:(DDDRemoteOutputStreamWrapper *)wrapper;
-- (NSInteger)writeDataTostream:(NSData *)data;
+- (void)writeDataTostream:(NSData *)data;
 - (void)startStream;
 - (void)stopStream;
 @end

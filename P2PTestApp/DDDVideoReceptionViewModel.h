@@ -15,5 +15,5 @@
 @end
 
 @protocol DDDVideoReceptionViewModelListener <DDDViewModelListener> @optional
-- (void)viewModel:(DDDVideoReceptionViewModel *)viewModel didUpdateInputStream:(NSInputStream *)inputStream;
+- (void)viewModel:(DDDVideoReceptionViewModel *)viewModel didUpdatePlayerItem:(AVPlayerItem *)item;
 @end

@@ -8,9 +8,11 @@
 
 #import "DDDVideoReceptionViewController.h"
 #import "DDDVideoReceptionViewModel.h"
+#import "P2PTestApp-Swift.h"
 
-@interface DDDVideoReceptionViewController ()<NSStreamDelegate>
-@property (strong, nonatomic, readonly) NSInputStream *stream;
+@interface DDDVideoReceptionViewController ()
+@property (weak, nonatomic) IBOutlet UIView *videoPreviewView;
+@property (weak, nonatomic) IBOutlet UIView *videoPreviewContainer;
 @property (strong, nonatomic) DDDVideoReceptionViewModel *passthroughViewModel;
 @end
 
@@ -23,17 +25,10 @@
 	self.passthroughViewModel = (DDDVideoReceptionViewModel *)self.viewModel;
 }
 
-- (NSInputStream *)stream
+#pragma mark - DDDVideoReceptionViewModelListener
+- (void)viewModel:(DDDVideoReceptionViewModel *)viewModel didUpdatePlayerItem:(AVPlayerItem *)item
 {
-	return self.passthroughViewModel.inputStream;
+	DDDPlayerView *playerView = [[DDDPlayerView alloc] initWithPlayerItem:item frame:self.videoPreviewView.bounds];
+	[self.videoPreviewView addSubview:playerView];
 }
-
-#pragma mark - DDDViewReceptionViewModelListener
-- (void)viewModel:(DDDVideoReceptionViewModel *)viewModel didUpdateInputStream:(NSInputStream *)inputStream
-{
-	[inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-	inputStream.delegate = self;
-	[inputStream open];
-}
-
 @end

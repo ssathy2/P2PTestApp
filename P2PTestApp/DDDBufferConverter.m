@@ -34,24 +34,30 @@
 	return [self dataFromImageBuffer:imageBuffer withBytesPerRow:bytesPerRow withHeight:imageSize.height];
 }
 
+- (NSData *)networkDataFromData:(NSData *)data
+{
+	NSInteger dataLength = data.length;
+	NSMutableData *returnData = [NSMutableData data];
+	[returnData appendBytes:&dataLength length:sizeof(NSInteger)];
+	[returnData appendBytes:data.bytes length:dataLength];
+	return returnData;
+}
 - (NSData *)dataFromImageBuffer:(CVImageBufferRef)imageBuffer withBytesPerRow:(size_t)bytesPerRow withHeight:(NSInteger)height
 {
-	CVPixelBufferLockBaseAddress(imageBuffer, 0);
-	void *rawBuffer = CVPixelBufferGetBaseAddress(imageBuffer);
 	NSMutableData *data = [NSMutableData new];
-	NSInteger dataLength = bytesPerRow*height;
-	[data appendBytes:&dataLength length:sizeof(dataLength)];
-	[data appendBytes:rawBuffer length:dataLength];
-	CVPixelBufferUnlockBaseAddress(imageBuffer, 0);
+	if (CVPixelBufferLockBaseAddress(imageBuffer, 0) == kCVReturnSuccess)
+	{
+		UInt8 *rawBuffer = (UInt8 *)CVPixelBufferGetBaseAddress(imageBuffer);
+		NSInteger dataLength = bytesPerRow*height;
+		[data appendBytes:&dataLength length:sizeof(NSInteger)];
+		[data appendBytes:rawBuffer length:dataLength];
+		CVPixelBufferUnlockBaseAddress(imageBuffer, 0);
+	}
 	return data;
 }
 
 - (void)setupBufferPoolWithWidth:(size_t)width withHeight:(size_t)height
 {
-	NSDictionary *bufferPoolAttrs = @{
-									  (NSString *)kCVPixelBufferPoolMaximumBufferAgeKey : @0
-									  };
-	
 	NSDictionary *pixelBufferAttrs = @{
 									  (NSString *)kCVPixelBufferPixelFormatTypeKey : [NSNumber numberWithUnsignedInt:kCMPixelFormat_32ARGB],
 									  (NSString *)kCVPixelBufferWidthKey : [NSNumber numberWithInteger:width],
@@ -59,8 +65,8 @@
 									  };
 
 	CVPixelBufferPoolCreate(kCFAllocatorDefault,
-							(__bridge CFDictionaryRef)(bufferPoolAttrs),
+							nil,
 							(__bridge CFDictionaryRef)(pixelBufferAttrs),
-							&_bufferPool);
+							&(_bufferPool));
 }
 @end

@@ -43,18 +43,17 @@
 - (void)peerKitContainer:(DDDPeerKitContainer *)peerkitConainer didRecieveStream:(DDDRemoteInputStreamWrapper *)stream
 {
 	self.inputStream = stream.inputStream;
-	[self.inputStreamController startStreamingWithStream:self.inputStream];	
-	[self callDelegateListenersWithSelector:@selector(viewModel:didUpdateInputStream:) withObject:self.inputStream];
+	[self.inputStreamController startStreamingWithStream:self.inputStream];
 }
 
 #pragma mark - DDDInputStreamControllerDelegate
 - (void)streamController:(DDDInputStreamController *)streamController streamStatusUpdated:(NSStreamStatus)status
 {
-	
+
 }
 
 - (void)streamController:(DDDInputStreamController *)streamController startedWritingToAssetWriter:(AVAssetWriterInput *)inputAssetWriter
 {
-	
+	[self callDelegateListenersWithSelector:@selector(viewModel:didUpdatePlayerItem:) withObject:inputAssetWriter];
 }
 @end

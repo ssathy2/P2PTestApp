@@ -18,7 +18,6 @@
 		DE78816619301C9A005A50A1 /* DDDPeerKitContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = DE78816519301C9A005A50A1 /* DDDPeerKitContainer.m */; };
 		DE9686011930D389007E98AD /* DDDVideoRoomViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DE9686001930D389007E98AD /* DDDVideoRoomViewModel.m */; };
 		DE9686041931091E007E98AD /* DDDVideoReceptionViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DE9686031931091E007E98AD /* DDDVideoReceptionViewModel.m */; };
-		DE96860719310B47007E98AD /* DDDVideoStreamPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = DE96860619310B47007E98AD /* DDDVideoStreamPlayerView.m */; };
 		DEA9D21E18F227EE00BD5002 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEA9D21D18F227EE00BD5002 /* AVFoundation.framework */; };
 		DEA9E7BC193A414800D8E35D /* UIView+SSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DEA9E7BB193A414800D8E35D /* UIView+SSAdditions.m */; };
 		DECC65C219203F300076D3AB /* DDDViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DECC65C119203F300076D3AB /* DDDViewModel.m */; };
@@ -43,6 +42,7 @@
 		DEDAD84318EA5DEA0020644C /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEDAD84218EA5DEA0020644C /* CoreVideo.framework */; };
 		DEDAD84618EA5EB50020644C /* DDDVideoRoomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DEDAD84518EA5EB50020644C /* DDDVideoRoomViewController.m */; };
 		DEDAD84918EA5EC30020644C /* DDDVideoBroadcastViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DEDAD84818EA5EC30020644C /* DDDVideoBroadcastViewController.m */; };
+		DEF95BCB1942533E002ABA53 /* DDDPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF95BCA1942533E002ABA53 /* DDDPlayerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,8 +78,6 @@
 		DE9686001930D389007E98AD /* DDDVideoRoomViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDDVideoRoomViewModel.m; sourceTree = "<group>"; };
 		DE9686021931091E007E98AD /* DDDVideoReceptionViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDDVideoReceptionViewModel.h; sourceTree = "<group>"; };
 		DE9686031931091E007E98AD /* DDDVideoReceptionViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDDVideoReceptionViewModel.m; sourceTree = "<group>"; };
-		DE96860519310B47007E98AD /* DDDVideoStreamPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDDVideoStreamPlayerView.h; sourceTree = "<group>"; };
-		DE96860619310B47007E98AD /* DDDVideoStreamPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDDVideoStreamPlayerView.m; sourceTree = "<group>"; };
 		DEA9D21D18F227EE00BD5002 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		DEA9E7BA193A414800D8E35D /* UIView+SSAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SSAdditions.h"; sourceTree = "<group>"; };
 		DEA9E7BB193A414800D8E35D /* UIView+SSAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SSAdditions.m"; sourceTree = "<group>"; };
@@ -120,6 +118,8 @@
 		DEDAD84518EA5EB50020644C /* DDDVideoRoomViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDDVideoRoomViewController.m; sourceTree = "<group>"; };
 		DEDAD84718EA5EC30020644C /* DDDVideoBroadcastViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDDVideoBroadcastViewController.h; sourceTree = "<group>"; };
 		DEDAD84818EA5EC30020644C /* DDDVideoBroadcastViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDDVideoBroadcastViewController.m; sourceTree = "<group>"; };
+		DEF95BC719425095002ABA53 /* P2PTestApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "P2PTestApp-Bridging-Header.h"; sourceTree = "<group>"; };
+		DEF95BCA1942533E002ABA53 /* DDDPlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DDDPlayerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -252,10 +252,9 @@
 			children = (
 				DECC65D419205D770076D3AB /* DDDVideoReceptionViewController.h */,
 				DECC65D519205D770076D3AB /* DDDVideoReceptionViewController.m */,
-				DE96860519310B47007E98AD /* DDDVideoStreamPlayerView.h */,
-				DE96860619310B47007E98AD /* DDDVideoStreamPlayerView.m */,
 				DE24FBC71938332100A2E106 /* DDDInputStreamController.h */,
 				DE24FBC81938332100A2E106 /* DDDInputStreamController.m */,
+				DEF95BCA1942533E002ABA53 /* DDDPlayerView.swift */,
 			);
 			name = "Video Reception";
 			sourceTree = "<group>";
@@ -314,6 +313,7 @@
 		DEDAD81218EA5D400020644C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				DEF95BC719425095002ABA53 /* P2PTestApp-Bridging-Header.h */,
 				DEDAD81318EA5D400020644C /* P2PTestApp-Info.plist */,
 				DEDAD81418EA5D400020644C /* InfoPlist.strings */,
 				DEDAD81718EA5D400020644C /* main.m */,
@@ -448,6 +448,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DEF95BCB1942533E002ABA53 /* DDDPlayerView.swift in Sources */,
 				DE788156192C54CF005A50A1 /* DDDVideoOutputStreamingController.m in Sources */,
 				DE24FBD3193A318700A2E106 /* DDDStreamFileManager.m in Sources */,
 				DECC65D31920495F0076D3AB /* DDDVideoViewModel.m in Sources */,
@@ -461,7 +462,6 @@
 				DEDAD82218EA5D410020644C /* DDDContainerViewController.m in Sources */,
 				DE24FBC91938332100A2E106 /* DDDInputStreamController.m in Sources */,
 				DEDAD84618EA5EB50020644C /* DDDVideoRoomViewController.m in Sources */,
-				DE96860719310B47007E98AD /* DDDVideoStreamPlayerView.m in Sources */,
 				DEDAD84918EA5EC30020644C /* DDDVideoBroadcastViewController.m in Sources */,
 				DE9686041931091E007E98AD /* DDDVideoReceptionViewModel.m in Sources */,
 				DECC65D619205D770076D3AB /* DDDVideoReceptionViewController.m in Sources */,
@@ -551,8 +551,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = P2PTestApp;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -583,7 +584,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_NAME = P2PTestApp;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -594,13 +596,20 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEFINES_MODULE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "P2PTestApp/P2PTestApp-Prefix.pch";
 				INFOPLIST_FILE = "P2PTestApp/P2PTestApp-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = P2PTestApp;
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "P2PTestApp/P2PTestApp-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -610,13 +619,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEFINES_MODULE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "P2PTestApp/P2PTestApp-Prefix.pch";
 				INFOPLIST_FILE = "P2PTestApp/P2PTestApp-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = P2PTestApp;
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "P2PTestApp/P2PTestApp-Bridging-Header.h";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
